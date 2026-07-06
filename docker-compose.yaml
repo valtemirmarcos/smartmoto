@@ -1,0 +1,39 @@
+services:
+
+  db:
+    image: mysql:8.4
+    container_name: smartmoto_mysql_db
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "33060:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api:
+    build: ./api
+    container_name: smartmoto_fastapi_api
+    restart: always
+    env_file:
+      - ./api/.env
+    ports:
+      - "3001:8000"
+    volumes:
+      - ./api:/app
+    depends_on:
+      - db
+
+  frontend:
+    build: ./front
+    container_name: smartmoto_web_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    volumes:
+      - ./front:/usr/share/nginx/html
+    depends_on:
+      - api
+
+volumes:
+  mysql_data:

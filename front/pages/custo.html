@@ -1,0 +1,872 @@
+<!-- TOPO -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <!-- TÍTULO -->
+    <div>
+        <h3 class="fw-bold mb-0">
+            Custos
+        </h3>
+
+        <small class="text-muted">
+            Gerencie todos os custos anuais
+        </small>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
+        data-bs-target="#modalCusto">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Novo Custo
+
+        </button>
+
+        <!-- FILTRO -->
+        <button 
+            class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#modalFiltroCusto"
+        >
+
+            <i class="bi bi-funnel-fill me-1"></i>
+
+            Filtros
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL FILTRO CUSTOS -->
+<div 
+    class="modal fade" 
+    id="modalFiltroCusto"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content border-0 rounded-5 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0 py-4 px-4">
+        
+                <div>
+        
+                    <h4 class="modal-title fw-bold mb-0">
+                        Filtros de Custos
+                    </h4>
+        
+                    <small class="opacity-75">
+                        Utilize os filtros para localizar custos
+                    </small>
+        
+                </div>
+        
+                <!-- FECHAR -->
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white shadow-none"
+                    data-bs-dismiss="modal"
+                ></button>
+        
+            </div>
+        
+            <!-- BODY -->
+            <div class="modal-body p-4">
+        
+                <div class="d-flex flex-column gap-4">
+
+                    <!-- FRANQUIADO -->
+                    <div>
+                        <label class="form-label fw-semibold">
+                            Franquiado
+                        </label>
+                        <select id="selectFranquiado" class="form-select rounded-4">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>  
+
+                    <!-- PLACA -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Placa
+                        </label>
+                    
+                        <input 
+                            type="text"
+                            id="inputPlaca"
+                            class="form-control rounded-4"
+                            placeholder="ABC1D23"
+                            autocomplete="off"
+                        >
+                    
+                        <ul 
+                            id="listaPlacas"
+                            class="list-group shadow position-absolute z-3 w-100"
+                            style="display:none; max-height:200px; overflow-y:auto;"
+                        >
+                        </ul>
+                    
+                    </div>
+
+                    <!-- CUSTO -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Custo
+                        </label>
+
+                        <select class="form-select rounded-4">
+
+                            <option>
+                                Todos
+                            </option>
+
+                            <option>
+                                Seguro
+                            </option>
+
+                            <option>
+                                Manutenção
+                            </option>
+
+                            <option>
+                                Combustível
+                            </option>
+
+                            <option>
+                                Multa
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- VENCIMENTO INICIAL -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Vencimento Inicial
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control rounded-4"
+                        >
+
+                    </div>
+
+                    <!-- VENCIMENTO FINAL -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Vencimento Final
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control rounded-4"
+                        >
+
+                    </div>
+
+                    <!-- STATUS -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Status
+                        </label>
+
+                        <select class="form-select rounded-4">
+
+                            <option>
+                                Todos
+                            </option>
+
+                            <option>
+                                Pago
+                            </option>
+
+                            <option>
+                                Pendente
+                            </option>
+
+                            <option>
+                                Atrasado
+                            </option>
+
+                            <option>
+                                Cancelado
+                            </option>
+
+                        </select>
+
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 px-4 pb-4">
+        
+                <!-- CANCELAR -->
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                >
+        
+                    <i class="bi bi-x-circle me-1"></i>
+        
+                    Cancelar
+        
+                </button>
+        
+                <!-- FILTRAR -->
+                <button 
+                    type="button"
+                    class="btn btn-dark rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                >
+        
+                    <i class="bi bi-search me-1"></i>
+        
+                    Filtrar
+        
+                </button>
+        
+            </div>
+        
+        </div>
+
+    </div>
+
+</div>
+
+<!-- conteudo -->
+<div class="container-fluid py-4">
+
+    <div class="row g-4">
+
+        <!-- DATATABLE -->
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card rounded-4 shadow-sm border-0 p-3">
+
+                    <!-- TÍTULO -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                        <h5 class="card-title mb-0 fw-bold">
+                            Custos Anuais
+                        </h5>
+
+                    </div>
+
+                    <!-- TABELA -->
+                    <div class="table-responsive">
+
+                        <table id="calcaoTableLista" class="table table-striped align-middle">
+
+                            <thead class="table-dark">
+
+                                <tr>
+                                    <th>
+                                        Franquiado
+                                    </th>
+                                    <th>
+                                        Placa
+                                    </th>
+
+                                    <th>
+                                        Custo
+                                    </th>
+
+                                    <th>
+                                        Vencimento
+                                    </th>
+
+                                    <th>
+                                        Valor
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th class="text-center" width="120"></th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        Aaa
+                                    </td>
+                                    <td>
+                                        TKO2H43
+                                    </td>
+
+                                    <td>
+                                        IPVA 1/4
+                                    </td>
+
+                                    <td>
+                                        05/01/2026
+                                    </td>
+
+                                    <td>
+                                        R$ 74,00
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-success text-white">
+                                            Pago
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalCusto">
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Aaa
+                                    </td>
+                                    <td>
+                                        TKO2H43
+                                    </td>
+
+                                    <td>
+                                        IPVA 1/4
+                                    </td>
+
+                                    <td>
+                                        05/01/2026
+                                    </td>
+
+                                    <td>
+                                        R$ 74,00
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-danger text-white">
+                                            Atrasado
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalCusto">
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Aaa
+                                    </td>
+                                    <td>
+                                        TKO2H43
+                                    </td>
+
+                                    <td>
+                                        IPVA 1/4
+                                    </td>
+
+                                    <td>
+                                        05/01/2026
+                                    </td>
+
+                                    <td>
+                                        R$ 74,00
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-primary text-white">
+                                            Aberto
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalCusto">
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                            <!-- FOOTER TOTAL -->
+                            <tfoot>
+
+                                <tr class="table-secondary fw-bold">
+                                    <td colspan="2" class="text-end">
+                                        Total Valor Previsto:
+                                    </td>
+
+                                    <td>
+                                        R$ 3.560,00
+                                    </td>
+                                    <td colspan="2" class="text-end">
+                                        Total Valor Pago:
+                                    </td>
+
+                                    <td>
+                                        R$ 3.560,00
+                                    </td>
+
+                                    <td></td>
+
+                                </tr>
+
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL CUSTO -->
+<div class="modal fade" id="modalCusto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+
+                <h5 class="modal-title">
+                    Cadastro de Custo
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+                <!-- ABAS -->
+                <ul class="nav nav-tabs mb-4" id="tabsCusto">
+
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link active fw-semibold" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#tabDadosCusto"
+                        >
+                            <i class="bi bi-clipboard-data me-1"></i>
+                            Dados
+                        </button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link fw-semibold" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#tabDocumentosCusto"
+                            id="btnAbaDocumentosCusto"
+                        >
+                            <i class="bi bi-folder2-open me-1"></i>
+                            Documentos
+                        </button>
+                    </li>
+
+                </ul>
+                <div class="tab-content">
+
+                    <!-- ABA DADOS -->
+                    <div class="tab-pane fade show active" id="tabDadosCusto">
+                        <form id="formCusto">
+                            <!-- FRANQUIADO -->
+                            <div class="mb-3">
+        
+                                <label class="form-label fw-bold">
+                                    Franquiado
+                                </label>
+        
+                                <select class="form-select rounded-3">
+        
+                                    <option selected disabled>
+                                        Selecione o franquiado
+                                    </option>
+        
+                                    <option>
+                                        João Silva
+                                    </option>
+        
+                                    <option>
+                                        Carlos Souza
+                                    </option>
+        
+                                    <option>
+                                        Marcos Lima
+                                    </option>
+        
+                                </select>
+        
+                            </div>
+        
+                            <!-- PLACA -->
+                            <div class="mb-3">
+        
+                                <label class="form-label fw-bold">
+                                    Placa da Moto
+                                </label>
+        
+                                <select class="form-select rounded-3">
+        
+                                    <option selected disabled>
+                                        Selecione a placa
+                                    </option>
+        
+                                    <option>
+                                        TKO2H43
+                                    </option>
+        
+                                    <option>
+                                        ABC1D23
+                                    </option>
+        
+                                    <option>
+                                        XYZ9K88
+                                    </option>
+        
+                                </select>
+        
+                            </div>
+        
+                            <!-- VENCIMENTO -->
+                            <div class="mb-3">
+        
+                                <label class="form-label fw-bold">
+                                    Data de Vencimento
+                                </label>
+        
+                                <input 
+                                    type="date"
+                                    class="form-control rounded-3"
+                                >
+        
+                            </div>
+        
+                            <!-- VALOR -->
+                            <div class="mb-3">
+        
+                                <label class="form-label fw-bold">
+                                    Valor
+                                </label>
+        
+                                <input 
+                                    type="text"
+                                    class="form-control rounded-3"
+                                    placeholder="R$ 0,00"
+                                >
+        
+                            </div>
+        
+                            <!-- STATUS -->
+                            <div class="mb-3">
+        
+                                <label class="form-label fw-bold">
+                                    Status
+                                </label>
+        
+                                <select class="form-select rounded-3">
+        
+                                    <option>
+                                        Pendente
+                                    </option>
+        
+                                    <option>
+                                        Pago
+                                    </option>
+        
+                                    <option>
+                                        Atrasado
+                                    </option>
+        
+                                    <option>
+                                        Cancelado
+                                    </option>
+        
+                                </select>
+        
+                            </div>
+        
+                        </form>
+                    </div>
+                    <!-- ABA DOCUMENTOS -->
+                    <div class="tab-pane fade" id="tabDocumentosCusto">
+
+                        <!-- TIPO DE DOCUMENTO -->
+                        <div class="mb-3">
+                            <div class="d-flex gap-2">
+                        
+                                <div class="flex-grow-1">
+                                    <label class="form-label fw-bold">
+                                        Tipo de Documento
+                                    </label>
+                                </div>
+                        
+                                <div style="width: 90px;">
+                                    <label class="form-label fw-bold">
+                                        Parcela
+                                    </label>
+                                </div>
+                        
+                            </div>
+                        
+                            <div class="input-group">
+                        
+                                <select id="custoTipoDocumento" class="form-select rounded-start-3">
+                                    <option value="" selected disabled>Selecione um tipo de documento</option>
+                                    <option value="documento">Documento</option>
+                                    <option value="ipva">IPVA</option>
+                                    <option value="licenciamento">Licenciamento</option>
+                                    <option value="seguro">Seguro</option>
+                                </select>
+                        
+                                <input
+                                    type="number"
+                                    id="custoNumeroDocumento"
+                                    class="form-control rounded-end-3"
+                                    style="max-width: 90px;"
+                                    min="0"
+                                    value="0"
+                                    placeholder="Nº"
+                                >
+                        
+                            </div>
+                        </div>
+
+                        <!-- UPLOAD -->
+                        <div
+                            class="border border-2 border-secondary-subtle rounded-4 p-4 text-center position-relative bg-light mb-3"
+                            style="border-style: dashed !important; cursor: pointer;"
+                            id="custoUploadArea">
+
+                            <input
+                                type="file"
+                                id="custoArquivo"
+                                class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                style="cursor: pointer;">
+
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="bi bi-cloud-arrow-up-fill fs-1 text-secondary mb-2"></i>
+                                <h6 class="fw-bold mb-1">Arraste o arquivo aqui</h6>
+                                <small class="text-muted">ou clique para selecionar um arquivo</small>
+                                <small class="text-secondary mt-1">JPG, PNG ou PDF</small>
+                            </div>
+
+                        </div>
+
+                        <!-- BOTÃO ENVIAR -->
+                        <div class="d-flex justify-content-end mb-3">
+                            <button
+                                type="button"
+                                id="btEnviarDocumentoCusto"
+                                class="btn btn-dark rounded-3"
+                                disabled>
+                                <i class="bi bi-upload me-1"></i>
+                                Enviar Arquivo
+                            </button>
+                        </div>
+
+                        <!-- TABELA -->
+                        <div class="table-responsive">
+                            <table id="tabelaDocumentosCusto" class="table table-striped align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Documento</th>
+                                        <th class="d-none d-lg-table-cell">Tipo</th>
+                                        <th class="d-none d-lg-table-cell">Data</th>
+                                        <th class="text-center">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaDocumentosCusto">
+                                    <tr id="custoSemDocumentos">
+                                        <td colspan="4" class="text-center text-muted py-3">
+                                            Nenhum documento enviado
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                    
+
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal"
+
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-success rounded-3"
+                    id="btSalvarCusto"
+                >
+                    Salvar Custo
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
+<div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-danger text-white border-0">
+
+                <h5 class="modal-title fw-bold">
+                    Confirmar Exclusão
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center py-4">
+
+                <div class="mb-3">
+
+                    <i class="bi bi-trash-fill text-danger" style="font-size: 60px;"></i>
+
+                </div>
+
+                <h6 class="fw-bold mb-2">
+                    Deseja realmente excluir?
+                </h6>
+
+                <p class="text-muted small mb-0">
+                    Esta ação não poderá ser desfeita.
+                </p>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 justify-content-center pb-4">
+
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-3 px-4"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-danger rounded-3 px-4"
+                >
+                    Excluir
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

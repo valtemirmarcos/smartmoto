@@ -1,0 +1,718 @@
+<!-- TOPO -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <!-- TÍTULO -->
+    <div>
+        <h3 class="fw-bold mb-0">
+            Manutenções
+        </h3>
+
+        <small class="text-muted">
+            Gerencie todas as manutenções de seus veiculos
+        </small>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
+        data-bs-target="#modalOficina">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Nova Manutenção
+
+        </button>
+
+        <!-- FILTRO -->
+        <button 
+            class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#modalFiltroOficina"
+        >
+
+            <i class="bi bi-funnel-fill me-1"></i>
+
+            Filtros
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL FILTRO OFICINA -->
+<div 
+    class="modal fade" 
+    id="modalFiltroOficina"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content border-0 rounded-5 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0 py-4 px-4">
+        
+                <div>
+        
+                    <h4 class="modal-title fw-bold mb-0">
+                        Filtros de Oficina
+                    </h4>
+        
+                    <small class="opacity-75">
+                        Utilize os filtros para localizar serviços
+                    </small>
+        
+                </div>
+        
+                <!-- FECHAR -->
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white shadow-none"
+                    data-bs-dismiss="modal"
+                ></button>
+        
+            </div>
+        
+            <!-- BODY -->
+            <div class="modal-body p-4">
+        
+                <div class="d-flex flex-column gap-4">
+
+                    <!-- FRANQUIADO -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Franquiado
+                        </label>
+
+                        <select class="form-select rounded-4">
+
+                            <option>
+                                Todos
+                            </option>
+
+                            <option>
+                                João Silva
+                            </option>
+
+                            <option>
+                                Carlos Souza
+                            </option>
+
+                            <option>
+                                Marcos Lima
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- PLACA -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Placa
+                        </label>
+
+                        <select class="form-select rounded-4">
+
+                            <option>
+                                Todas
+                            </option>
+
+                            <option>
+                                TKO2H43
+                            </option>
+
+                            <option>
+                                ABC1D23
+                            </option>
+
+                            <option>
+                                XYZ9K88
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- DATA INICIAL SERVIÇO -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Data Inicial Serviço
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control rounded-4"
+                        >
+
+                    </div>
+
+                    <!-- DATA FINAL SERVIÇO -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Data Final Serviço
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control rounded-4"
+                        >
+
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 px-4 pb-4">
+        
+                <!-- CANCELAR -->
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                >
+        
+                    <i class="bi bi-x-circle me-1"></i>
+        
+                    Cancelar
+        
+                </button>
+        
+                <!-- FILTRAR -->
+                <button 
+                    type="button"
+                    class="btn btn-dark rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                >
+        
+                    <i class="bi bi-search me-1"></i>
+        
+                    Filtrar
+        
+                </button>
+        
+            </div>
+        
+        </div>
+
+    </div>
+
+</div>
+
+<!-- conteudo -->
+<div class="container-fluid py-4">
+
+    <div class="row g-4">
+
+        <!-- DATATABLE -->
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card rounded-4 shadow-sm border-0 p-3">
+
+                    <!-- TÍTULO -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                        <h5 class="card-title mb-0 fw-bold">
+                            lista de Manutenções
+                        </h5>
+
+                    </div>
+
+                    <!-- TABELA -->
+                    <div class="table-responsive">
+
+                        <table id="oficinaTableLista" class="table table-striped align-middle">
+
+                            <thead class="table-dark">
+
+                                <tr>
+                                    <th>
+                                        Franquiado
+                                    </th>
+                                    <th>
+                                        Placa
+                                    </th>
+                                    <th>
+                                        Data
+                                    </th>
+                                    <th>
+                                        Km
+                                    </th>
+
+                                    <th>
+                                        Serviço
+                                    </th>
+
+                                    <th>
+                                        Valor
+                                    </th>
+                                    <th>
+                                        Observação
+                                    </th>
+                                    <th></th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        Aaa
+                                    </td>
+                                    <td>
+                                        TKO2H43
+                                    </td>
+                                    <td>
+                                        01/05/26
+                                    </td>
+                                    <td>
+                                        5000
+                                    </td>
+
+                                    <td>
+                                        Troca de oleo
+                                    </td>
+
+                                    <td>
+                                        R$ 35,00
+                                    </td>
+                                    <td>
+                                        pago pelo franquiado
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalOficina">
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Aaa
+                                    </td>
+                                    <td>
+                                        TKO2H43
+                                    </td>
+                                    <td>
+                                        01/05/26
+                                    </td>
+                                    <td>
+                                        5000
+                                    </td>
+
+                                    <td>
+                                        Troca de oleo
+                                    </td>
+
+                                    <td>
+                                        R$ 35,00
+                                    </td>
+                                    <td>
+                                        pago pelo franquiado
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalOficina">
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Aaa
+                                    </td>
+                                    <td>
+                                        TKO2H43
+                                    </td>
+                                    <td>
+                                        01/05/26
+                                    </td>
+                                    <td>
+                                        5000
+                                    </td>
+
+                                    <td>
+                                        Troca de oleo
+                                    </td>
+
+                                    <td>
+                                        R$ 35,00
+                                    </td>
+                                    <td>
+                                        pago pelo franquiado
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalOficina">
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                            <!-- FOOTER TOTAL -->
+                            <tfoot>
+
+                                <tr class="table-secondary fw-bold">
+                                    <td colspan="2" class="text-end">
+                                        
+                                    </td>
+
+                                    <td>
+
+                                    </td>
+                                    <td colspan="2" class="text-end">
+                                        Total Valor Pago:
+                                    </td>
+
+                                    <td>
+                                        R$ 3.560,00
+                                    </td>
+
+                                    <td colspan="2"></td>
+
+                                </tr>
+
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL OFICINA -->
+<div 
+    class="modal fade" 
+    id="modalOficina" 
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+
+                <h5 class="modal-title">
+                    Cadastro de Oficina
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form>
+
+                    <!-- FRANQUIADO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Franquiado
+                        </label>
+
+                        <select class="form-select rounded-3">
+
+                            <option selected disabled>
+                                Selecione o franquiado
+                            </option>
+
+                            <option>
+                                João Silva
+                            </option>
+
+                            <option>
+                                Carlos Souza
+                            </option>
+
+                            <option>
+                                Marcos Lima
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- PLACA -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Placa da Moto
+                        </label>
+
+                        <select class="form-select rounded-3">
+
+                            <option selected disabled>
+                                Selecione a placa
+                            </option>
+
+                            <option>
+                                TKO2H43
+                            </option>
+
+                            <option>
+                                ABC1D23
+                            </option>
+
+                            <option>
+                                XYZ9K88
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- DATA SERVIÇO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Data do Serviço
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control rounded-3"
+                        >
+
+                    </div>
+
+                    <!-- KILOMETRAGEM -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Kilometragem
+                        </label>
+
+                        <input 
+                            type="number"
+                            class="form-control rounded-3"
+                            placeholder="Ex: 25000"
+                        >
+
+                    </div>
+
+                    <!-- SERVIÇO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Serviço
+                        </label>
+
+                        <input 
+                            type="text"
+                            class="form-control rounded-3"
+                            placeholder="Descreva o serviço realizado"
+                        >
+
+                    </div>
+
+                    <!-- VALOR -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Valor
+                        </label>
+
+                        <input 
+                            type="text"
+                            class="form-control rounded-3"
+                            placeholder="R$ 0,00"
+                        >
+
+                    </div>
+
+                    <!-- OBSERVAÇÃO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Observação
+                        </label>
+
+                        <textarea 
+                            class="form-control rounded-3"
+                            rows="4"
+                            placeholder="Digite alguma observação..."
+                        ></textarea>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-success rounded-3"
+                >
+                    Salvar Serviço
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
+<div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-danger text-white border-0">
+
+                <h5 class="modal-title fw-bold">
+                    Confirmar Exclusão
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center py-4">
+
+                <div class="mb-3">
+
+                    <i class="bi bi-trash-fill text-danger" style="font-size: 60px;"></i>
+
+                </div>
+
+                <h6 class="fw-bold mb-2">
+                    Deseja realmente excluir?
+                </h6>
+
+                <p class="text-muted small mb-0">
+                    Esta ação não poderá ser desfeita.
+                </p>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 justify-content-center pb-4">
+
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-3 px-4"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-danger rounded-3 px-4"
+                >
+                    Excluir
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

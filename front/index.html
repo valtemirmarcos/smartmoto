@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema - Smartmoto</title>
+    <!-- REDIRECT - deve ser a primeira coisa após os metas -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/core/api.js"></script>
+    <script src="./js/core/auth.js"></script>
+    <script src="./js/core/modal-manager.js"></script>
+    
+    <script>
+        verificarLogin();
+    </script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <link rel="icon" href="./imgs/cropped-icon11-1-192x192.png" type="image/png">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+    <!-- TOPO -->
+    <header class="top-bar d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <!-- Botão hamburger mobile -->
+        <button class="btn btn-outline-light d-md-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Menu">
+          <i class="bi bi-list"></i>
+        </button>
+        
+        <img src="./imgs/5-copiar.png" alt="Smartmoto Logo" class="logo-img">
+      </div>
+      <div class="top-icons">
+        <i class="bi bi-person-circle" title="Perfil"></i>
+        <i class="bi bi-box-arrow-right logout-icon"
+          title="Sair"
+          data-bs-toggle="modal"
+          data-bs-target="#modalLogout"
+          >
+        </i>
+      </div>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <div class="container-fluid flex-grow-1">
+      <div class="row">
+
+        <!-- MENU LATERAL -->
+        <nav class="col-md-2 sidebar p-0 collapse d-md-block" id="sidebarMenu">
+          <div class="username">João Silva</div>
+          <ul class="nav flex-column m-0 p-0">
+            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('dashboard')">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('frota')">Frota</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('locatario')"">Locatários</a></li>
+
+            <!-- Financeiro submenu -->
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#financeiroSubmenu" role="button" aria-expanded="false" aria-controls="financeiroSubmenu">
+                Financeiro <i class="bi bi-chevron-down"></i>
+              </a>
+              <div class="collapse submenu" id="financeiroSubmenu">
+                <div class="collapse-inner">
+                  <a href="#" onclick="carregarPagina('calcao')"">Calções</a>
+                  <a href="#" onclick="carregarPagina('semanal')"">Semanais</a>
+                  <a href="#" onclick="carregarPagina('custo')"">Custos</a>
+                  <a href="#" onclick="carregarPagina('multa')"">Multas</a>
+                  <!-- <a href="#" onclick="carregarPagina('cobranca')"">Cobranças</a> -->
+                  <a href="#" onclick="carregarPagina('faturamento')"">Faturamentos</a>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('oficina')"">Oficina</a></li>
+            <!-- Relatórios submenu -->
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#relatoriosSubmenu" role="button" aria-expanded="false" aria-controls="relatoriosSubmenu">
+                Relatórios <i class="bi bi-chevron-down"></i>
+              </a>
+              <div class="collapse submenu" id="relatoriosSubmenu">
+                <div class="collapse-inner">
+                  <a href="#">Recebimentos</a>
+                  <a href="#">Custos</a>
+                  <a href="#">Multas</a>
+                  <a href="#">Despesas mensais</a>
+                </div>
+              </div>
+            </li>
+            <!-- Configuracoes -->
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#configuracoesSubmenu" role="button" aria-expanded="false" aria-controls="relatoriosSubmenu">
+                Configurações <i class="bi bi-chevron-down"></i>
+              </a>
+              <div class="collapse submenu" id="configuracoesSubmenu">
+                <div class="collapse-inner">
+                  <a href="#" onclick="carregarPagina('despesa_fixa')"">Despesas Recorrentes</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="col-md-10 main-content">
+          <div id="conteudo"></div>
+
+        </main>
+
+      </div>
+    </div>
+
+<!-- MODAL LOGOUT -->
+<div 
+    class="modal fade" 
+    id="modalLogout"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0">
+
+                <h5 class="modal-title fw-bold">
+                    Confirmar Saída
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center py-5">
+
+                <div class="mb-4">
+
+                    <i 
+                        class="bi bi-box-arrow-right text-danger"
+                        style="font-size: 70px;"
+                    ></i>
+
+                </div>
+
+                <h4 class="fw-bold mb-3">
+                    Deseja sair do sistema?
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Sua sessão será encerrada.
+                </p>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 justify-content-center pb-4">
+
+                <!-- CANCELAR -->
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-4 px-4"
+                    data-bs-dismiss="modal"
+                >
+
+                    <i class="bi bi-x-circle me-1"></i>
+
+                    Cancelar
+
+                </button>
+
+                <!-- SAIR -->
+                <button 
+                    type="button"
+                    class="btn btn-danger rounded-4 px-4"
+                    onclick="logout()"
+                >
+
+                    <i class="bi bi-box-arrow-right me-1"></i>
+
+                    Sair
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="loadingModal" class="loading-modal">
+  <div class="loading-content">
+      <div class="spinner"></div>
+
+      <i class="fas fa-motorcycle moto-icon"></i>
+
+      <div class="loading-text">
+          Gerando Semanais...
+      </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
+<div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+
+      <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+
+          <!-- HEADER -->
+          <div class="modal-header bg-danger text-white border-0">
+
+              <h5 class="modal-title fw-bold">
+                  Confirmar Exclusão
+              </h5>
+
+              <button 
+                  type="button" 
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+              ></button>
+
+          </div>
+
+          <!-- BODY -->
+          <div class="modal-body text-center py-4">
+
+              <div class="mb-3">
+
+                  <i class="bi bi-trash-fill text-danger" style="font-size: 60px;"></i>
+
+              </div>
+
+              <h6 class="fw-bold mb-2">
+                  Deseja realmente excluir?
+              </h6>
+
+              <p class="text-muted small mb-0">
+                  Esta ação não poderá ser desfeita.
+              </p>
+
+          </div>
+
+          <!-- FOOTER -->
+          <div class="modal-footer border-0 justify-content-center pb-4">
+
+              <button 
+                  type="button"
+                  class="btn btn-light border rounded-3 px-4"
+                  data-bs-dismiss="modal"
+              >
+                  Cancelar
+              </button>
+
+              <button 
+                  type="button"
+                  class="btn btn-danger rounded-3 px-4 btExcluir"
+                  
+              >
+                  Excluir
+              </button>
+
+          </div>
+
+      </div>
+
+  </div>
+
+</div>
+
+    <!-- RODAPÉ -->
+    <footer>© 2025 Smartmoto. Todos os direitos reservados.</footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="./js/modules/universal.js"></script>
+
+
+    <script src="./js/modules/dashboard.js"></script>
+    <script src="./js/modules/frota.js"></script>
+    <script src="./js/modules/locatario.js"></script>
+    <script src="./js/modules/calcao.js"></script>
+    <script src="./js/modules/semanal.js"></script>
+    <script src="./js/modules/custo.js"></script>
+    <script src="./js/modules/multa.js"></script>
+    <script src="./js/modules/despesa_fixa.js"></script>
+    <script src="./js/modules/faturamento.js"></script>
+    <script src="./js/modules/oficina.js"></script>
+    <script src="./js/core/app.js"></script>
+
+    <!-- INICIAR ÚLTIMA PÁGINA -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  
+          // pega última página salva
+          let pagina = localStorage.getItem("paginaAtual");
+  
+          // padrão
+          if (!pagina) {
+              pagina = "dashboard";
+          }
+  
+          carregarPagina(pagina);
+  
+      });
+      </script>
+  </body>
+</html>
