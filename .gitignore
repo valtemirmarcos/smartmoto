@@ -1,0 +1,22 @@
+# Arquivos de ambiente
+.env
+
+# Dependências
+node_modules/
+
+# Logs
+*.log
+
+# Cache
+.cache/
+__pycache__/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos do VS Code (opcional)
+.vscode/
+
+# Arquivos temporários
+*.tmp
