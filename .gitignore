@@ -20,3 +20,9 @@ Thumbs.db
 
 # Arquivos temporários
 *.tmp
+
+# Ambiente
+.env
+
+# Credenciais
+api/credenciais-drive.json
