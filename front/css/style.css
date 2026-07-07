@@ -1,0 +1,415 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* TOPO */
+.top-bar {
+  background-color: #000;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar .logo-img {
+  max-height: 50px;
+}
+
+.top-bar .top-icons i {
+  color: #FFD700;
+  font-size: 1.5rem;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.top-bar .top-icons i:hover {
+  color: #e6c200;
+}
+
+/* MENU LATERAL */
+.sidebar {
+  background-color: #111;
+  min-height: calc(100vh - 70px);
+  padding: 20px 10px;
+}
+
+.sidebar .username {
+  background-color: #FFD700;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 2px solid #000;
+}
+
+.sidebar .nav-link {
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus {
+  color: #FFD700;
+  background-color: #222;
+  border-radius: 5px;
+}
+
+.sidebar .submenu {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.sidebar .submenu .nav-link {
+  font-size: 0.95rem;
+}
+
+/* CONTEÚDO PRINCIPAL */
+.main-content {
+  background-color: #fff;
+  color: #000;
+  flex-grow: 1;
+  padding: 30px;
+}
+
+/* RODAPÉ */
+footer {
+  background-color: #000;
+  color: #888;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+}
+
+/* Submenu links */
+.collapse-inner a {
+  display: block;
+  padding: 5px 0;
+  color: #fff;
+  text-decoration: none;
+}
+
+.collapse-inner a:hover {
+  color: #FFD700;
+}
+
+/* LOGIN */
+.login-section {
+  min-height: calc(100vh - 120px);
+}
+
+.card-login {
+  background: #fff;
+  color: #000;
+  padding: 30px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+}
+
+.card-login h2 {
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.btn-custom {
+  background-color: #FFD700;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 12px;
+  transition: 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: #e6c200;
+  color: #000;
+}
+
+.social-icons a {
+  color: #FFD700;
+  font-size: 1.3rem;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  color: #fff;
+}
+
+.bg-logo {
+  background-image: url('../imgs/5-copiar.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  min-height: calc(100vh - 120px);
+}
+
+.logout-icon {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-icon:hover {
+  color: #FFD700;
+}
+
+.frota-card {
+  width: 280px;
+}
+
+/* PLACA */
+.mercosul-plate {
+  width: 190px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.plate-top {
+  background: #003399;
+  color: #fff;
+  padding: 4px 10px;
+}
+
+.plate-country {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.flag-br {
+  width: 18px;
+  height: 12px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.plate-number {
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+  padding: 10px 0 0 0;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+.plate-br {
+  text-align: left;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  padding-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+/* FILTROS */
+.filtro-panel {
+  opacity: 0.08;
+  transform: scale(1.02);
+  z-index: 0;
+}
+
+.filtro-header {
+  transition: .2s;
+}
+
+.filtro-header:hover {
+  background: #f8fafc;
+}
+
+/* ÍCONE */
+.filter-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: #111827;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+/* INPUTS */
+.form-control,
+.form-select {
+  height: 54px;
+  border: 1px solid #dcdcdc;
+  padding-left: 16px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: none;
+  border-color: #111827;
+}
+
+/* MODAL */
+.modal-content {
+  background: #ffffff;
+}
+
+/* HEADER */
+.modal-header {
+  background: linear-gradient(
+      135deg,
+      #111827,
+      #1f2937
+  );
+}
+
+/* BOTÕES */
+.btn {
+  font-weight: 600;
+}
+
+/* TABELAS CALÇÕES */
+.table {
+  margin-bottom: 0;
+}
+
+/* HEAD */
+.table-dark th {
+  border: none;
+  font-weight: 600;
+}
+
+/* FOOTER */
+tfoot tr td {
+  font-size: 15px;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+/* BADGES */
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-status {
+  min-width: 120px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.modal-backdrop.show:nth-of-type(1) {
+  z-index: 1050;
+}
+
+.modal.show:nth-of-type(1) {
+  z-index: 1055;
+}
+
+.modal-backdrop.show:nth-of-type(2) {
+  z-index: 1060;
+}
+
+.modal.show:nth-of-type(2) {
+  z-index: 1065;
+}
+
+
+.loading-modal {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-content {
+  position: relative;
+  width: 240px;
+  height: 240px;
+
+  background: #000;
+  border-radius: 20px;
+  border: 2px solid #FFC107;
+  box-shadow: 0 0 30px rgba(0,0,0,.8);
+}
+
+.spinner {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 150px;
+  height: 150px;
+
+  border: 8px solid rgba(255, 193, 7, 0.15);
+  border-top: 8px solid #FFC107;
+
+  border-radius: 50%;
+  animation: girar 1s linear infinite;
+}
+
+.moto-icon {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 90px;
+  color: #FFC107;
+  z-index: 2;
+}
+
+.loading-text {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+
+  text-align: center;
+  color: #FFC107;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+@keyframes girar {
+  from {
+      transform: translateX(-50%) rotate(0deg);
+  }
+  to {
+      transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+
+.modal.show{
+  overflow-y:auto;
+}
+
+.swal-modal-top {
+  z-index: 99999 !important;
+}
+
+.swal2-container {
+  z-index: 99999 !important;
+}

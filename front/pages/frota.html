@@ -1,0 +1,1273 @@
+<!-- TOPO -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <!-- TÍTULO -->
+    <div>
+        <h3 class="fw-bold mb-0">
+            Frotas
+        </h3>
+
+        <small class="text-muted">
+            Gerencie os veículos cadastrados
+        </small>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+
+        <!-- NOVA FROTA -->
+        <button 
+        type="button"
+        class="btn btn-dark rounded-4 px-4 py-2"
+        id="btnNovaFrota"
+        data-bs-toggle="modal"
+        data-bs-target="#modalFrota"
+    >
+        <i class="bi bi-plus-circle me-1"></i>
+        Nova Frota
+    </button>
+
+        <!-- FILTRO -->
+        <button 
+            class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#modalFiltroFrota"
+        >
+
+            <i class="bi bi-funnel-fill me-1"></i>
+
+            Filtros
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL FILTRO -->
+<div 
+    class="modal fade" 
+    id="modalFiltroFrota"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content border-0 rounded-5 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0 py-4 px-4">
+
+                <div>
+
+                    <h4 class="modal-title fw-bold mb-0">
+                        Filtros da Frota
+                    </h4>
+
+                    <small class="opacity-75">
+                        Utilize os filtros para localizar veículos
+                    </small>
+
+                </div>
+
+                <!-- FECHAR -->
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white shadow-none"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body p-4">
+
+                <div class="d-flex flex-column gap-4">
+                    <!-- FRANQUIADO -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Franquiado
+                        </label>
+
+                        <select class="form-select rounded-4">
+
+                            <option>
+                                Todos
+                            </option>
+
+                            <option>
+                                João Silva
+                            </option>
+
+                            <option>
+                                Carlos Souza
+                            </option>
+
+                            <option>
+                                Marcos Lima
+                            </option>
+
+                        </select>
+
+                    </div>
+                    <!-- PLACA -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Placa
+                        </label>
+                    
+                        <input 
+                            type="text"
+                            id="inputPlaca"
+                            class="form-control rounded-4"
+                            placeholder="ABC1D23"
+                            autocomplete="off"
+                        >
+                    
+                        <ul 
+                            id="listaPlacas"
+                            class="list-group shadow position-absolute z-3 w-100"
+                            style="display:none; max-height:200px; overflow-y:auto;"
+                        >
+                        </ul>
+                    
+                    </div>
+
+
+                    <!-- COR -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Cor
+                        </label>
+                    
+                        <select id="selectCor" class="form-select rounded-4">
+                            <option value="">Todas</option>
+                        </select>
+                    
+                    </div>
+                    <!-- ANO -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Ano
+                        </label>
+
+                        <select id="selectAno" class="form-select rounded-4">
+                            <option value="">Todos</option>
+                        </select>
+
+                    </div>
+
+                    <!-- STATUS -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Status
+                        </label>
+                        <select id="selectStatus" class="form-select rounded-4">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 px-4 pb-4">
+
+                <!-- LIMPAR -->
+                <button 
+                    type="button"
+                    class="btn btn-outline-secondary rounded-4 px-4 py-2"
+                    id="limparFiltros"
+                >
+
+                    <i class="bi bi-x-circle me-1"></i>
+
+                    Limpar Filtros
+
+                </button>
+
+                <!-- FILTRAR -->
+                <button 
+                    type="button"
+                    class="btn btn-dark rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                    id="filtrarFrotas"
+                >
+
+                    <i class="bi bi-search me-1"></i>
+
+                    Filtrar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- conteudo -->
+<div class="container-fluid py-4">
+
+    <div class="row g-4">
+        <!-- CARD -->
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+              <!-- INFORMAÇÕES -->
+              <div class="card-body text-center">
+                  <!-- DADOS -->
+                  <div class="mb-3">
+                      <div class="fw-bold fs-6">
+                          RENAVAM: 12345678901
+                      </div>
+                      <div class="text-muted small">
+                          Ano: 2023
+                      </div>
+                      <div class="text-muted small">
+                          Cor: Preta
+                      </div>
+                      <div class="text-danger small fw-bold mt-1">
+                          Locatário: João Silva
+                      </div>
+                  </div>
+                  <!-- PLACA -->
+                  <div class="mercosul-plate mx-auto">
+                      <div class="plate-top">
+                          <div class="plate-country">
+                              <img 
+                                  src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                  alt="Brasil"
+                                  class="flag-br"
+                              >
+                              <span>BRASIL</span>
+                          </div>
+                      </div>
+                      <div class="plate-number">
+                          ABC1D23
+                      </div>
+                      <div class="plate-br">
+                          BR
+                      </div>
+                  </div>
+                  <!-- STATUS -->
+                  <div class="mt-3">
+                      <span class="badge bg-danger">
+                          Locada
+                      </span>
+                  </div>
+              </div>
+            </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+              <div class="card-body text-center">
+                  <div class="mb-3">
+                      <div class="fw-bold fs-6">
+                          RENAVAM: 98765432100
+                      </div>
+                      <div class="text-muted small">
+                          Ano: 2022
+                      </div>
+                      <div class="text-muted small">
+                          Cor: Azul
+                      </div>
+                      <div class="small fw-bold mt-1 invisible">
+                        Locatário: -
+                      </div>
+                  </div>
+                  <div class="mercosul-plate mx-auto">
+                      <div class="plate-top">
+                          <div class="plate-country">
+                              <img 
+                                  src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                  alt="Brasil"
+                                  class="flag-br"
+                              >
+                              <span>BRASIL</span>
+                          </div>
+                      </div>
+                      <div class="plate-number">
+                          XYZ9K88
+                      </div>
+                      <div class="plate-br">
+                          BR
+                      </div>
+                  </div>
+                  <div class="mt-3">
+                      <span class="badge bg-success">
+                          Disponível
+                      </span>
+                  </div>
+              </div>
+            </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+            <!-- INFORMAÇÕES -->
+            <div class="card-body text-center">
+                <!-- DADOS -->
+                <div class="mb-3">
+                    <div class="fw-bold fs-6">
+                        RENAVAM: 12345678901
+                    </div>
+                    <div class="text-muted small">
+                        Ano: 2023
+                    </div>
+                    <div class="text-muted small">
+                        Cor: Preta
+                    </div>
+                    <div class="text-danger small fw-bold mt-1">
+                        Locatário: João Silva
+                    </div>
+                </div>
+                <!-- PLACA -->
+                <div class="mercosul-plate mx-auto">
+                    <div class="plate-top">
+                        <div class="plate-country">
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                alt="Brasil"
+                                class="flag-br"
+                            >
+                            <span>BRASIL</span>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        ABC1D23
+                    </div>
+                    <div class="plate-br">
+                        BR
+                    </div>
+                </div>
+                <!-- STATUS -->
+                <div class="mt-3">
+                    <span class="badge bg-danger">
+                        Locada
+                    </span>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+              <div class="card-body text-center">
+                  <div class="mb-3">
+                      <div class="fw-bold fs-6">
+                          RENAVAM: 98765432100
+                      </div>
+                      <div class="text-muted small">
+                          Ano: 2022
+                      </div>
+                      <div class="text-muted small">
+                          Cor: Azul
+                      </div>
+                      <div class="small fw-bold mt-1 invisible">
+                        Locatário: -
+                      </div>
+                  </div>
+                  <div class="mercosul-plate mx-auto">
+                      <div class="plate-top">
+                          <div class="plate-country">
+                              <img 
+                                  src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                  alt="Brasil"
+                                  class="flag-br"
+                              >
+                              <span>BRASIL</span>
+                          </div>
+                      </div>
+                      <div class="plate-number">
+                          XYZ9K88
+                      </div>
+                      <div class="plate-br">
+                          BR
+                      </div>
+                  </div>
+                  <div class="mt-3">
+                      <span class="badge bg-success">
+                          Disponível
+                      </span>
+                  </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+            <!-- INFORMAÇÕES -->
+            <div class="card-body text-center">
+                <!-- DADOS -->
+                <div class="mb-3">
+                    <div class="fw-bold fs-6">
+                        RENAVAM: 12345678901
+                    </div>
+                    <div class="text-muted small">
+                        Ano: 2023
+                    </div>
+                    <div class="text-muted small">
+                        Cor: Preta
+                    </div>
+                    <div class="text-danger small fw-bold mt-1">
+                        Locatário: João Silva
+                    </div>
+                </div>
+                <!-- PLACA -->
+                <div class="mercosul-plate mx-auto">
+                    <div class="plate-top">
+                        <div class="plate-country">
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                alt="Brasil"
+                                class="flag-br"
+                            >
+                            <span>BRASIL</span>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        ABC1D23
+                    </div>
+                    <div class="plate-br">
+                        BR
+                    </div>
+                </div>
+                <!-- STATUS -->
+                <div class="mt-3">
+                    <span class="badge bg-danger">
+                        Locada
+                    </span>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- CARD -->
+      <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <div class="fw-bold fs-6">
+                        RENAVAM: 98765432100
+                    </div>
+                    <div class="text-muted small">
+                        Ano: 2022
+                    </div>
+                    <div class="text-muted small">
+                        Cor: Azul
+                    </div>
+                    <div class="small fw-bold mt-1 invisible">
+                      Locatário: -
+                    </div>
+                </div>
+                <div class="mercosul-plate mx-auto">
+                    <div class="plate-top">
+                        <div class="plate-country">
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                alt="Brasil"
+                                class="flag-br"
+                            >
+                            <span>BRASIL</span>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        XYZ9K88
+                    </div>
+                    <div class="plate-br">
+                        BR
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <span class="badge bg-success">
+                        Disponível
+                    </span>
+                </div>
+            </div>
+          </div>
+      </div>
+
+      <!-- CARD -->
+      <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+          <!-- INFORMAÇÕES -->
+          <div class="card-body text-center">
+              <!-- DADOS -->
+              <div class="mb-3">
+                  <div class="fw-bold fs-6">
+                      RENAVAM: 12345678901
+                  </div>
+                  <div class="text-muted small">
+                      Ano: 2023
+                  </div>
+                  <div class="text-muted small">
+                      Cor: Preta
+                  </div>
+                  <div class="text-danger small fw-bold mt-1">
+                      Locatário: João Silva
+                  </div>
+              </div>
+              <!-- PLACA -->
+              <div class="mercosul-plate mx-auto">
+                  <div class="plate-top">
+                      <div class="plate-country">
+                          <img 
+                              src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                              alt="Brasil"
+                              class="flag-br"
+                          >
+                          <span>BRASIL</span>
+                      </div>
+                  </div>
+                  <div class="plate-number">
+                      ABC1D23
+                  </div>
+                  <div class="plate-br">
+                      BR
+                  </div>
+              </div>
+              <!-- STATUS -->
+              <div class="mt-3">
+                  <span class="badge bg-danger">
+                      Locada
+                  </span>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD -->
+      <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="card shadow-lg rounded-4 border-2 overflow-hidden w-100" data-bs-toggle="modal" data-bs-target="#modalFrota" style="cursor:pointer;">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <div class="fw-bold fs-6">
+                        RENAVAM: 98765432100
+                    </div>
+                    <div class="text-muted small">
+                        Ano: 2022
+                    </div>
+                    <div class="text-muted small">
+                        Cor: Azul
+                    </div>
+                    <div class="small fw-bold mt-1 invisible">
+                      Locatário: -
+                    </div>
+                </div>
+                <div class="mercosul-plate mx-auto">
+                    <div class="plate-top">
+                        <div class="plate-country">
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg"
+                                alt="Brasil"
+                                class="flag-br"
+                            >
+                            <span>BRASIL</span>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        XYZ9K88
+                    </div>
+                    <div class="plate-br">
+                        BR
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <span class="badge bg-success">
+                        Disponível
+                    </span>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+<!-- MODAL FROTA -->
+<div class="modal fade"
+     id="modalFrota"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="tituloCadastroFrota">
+                    Alterar Dados da Frota
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <!-- ABAS -->
+                <ul class="nav nav-tabs mb-4" id="tabsFrota">
+
+                    <li class="nav-item">
+                        <button
+                            class="nav-link active fw-semibold"
+                            data-bs-toggle="tab"
+                            data-bs-target="#tabFrotaDados">
+
+                            <i class="bi bi-clipboard-data me-1"></i>
+                            Dados
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button
+                            class="nav-link fw-semibold"
+                            data-bs-toggle="tab"
+                            data-bs-target="#tabFrotaCustos"
+                            id="btnAbaDocumentosFrotaCustos">
+
+                            <i class="bi bi-folder2-open me-1"></i>
+                            Custos Anuais
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button
+                            class="nav-link fw-semibold"
+                            data-bs-toggle="tab"
+                            data-bs-target="#tabFrotaDocumentos"
+                            id="btnAbaDocumentosFrota">
+
+                            <i class="bi bi-folder2-open me-1"></i>
+                            Documentos
+                        </button>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content">
+
+                    <!-- ABA DADOS -->
+                    <div class="tab-pane fade show active" id="tabFrotaDados">
+
+                        <form id="formFrota">
+
+                            <div class="row">
+
+                                <!-- FRANQUIADO -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Franquiado
+                                    </label>
+
+                                    <select id="selectFranquiadoModal"
+                                            class="form-select rounded-4">
+                                        <option value="" selected disabled>
+                                            Selecione o franquiado
+                                        </option>
+                                    </select>
+
+                                    <input type="hidden"
+                                           id="modalFrotaFranquiadoID">
+                                </div>
+
+                                <!-- PLACA -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Placa
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="AAA1A34"
+                                        id="modalFrotaPlaca">
+                                </div>
+
+                                <!-- RENAVAM -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        RENAVAM
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="12345678901"
+                                        id="modalFrotaRenavam">
+                                </div>
+
+                                <!-- ANO -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Ano
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        value="2023"
+                                        id="modalFrotaAno">
+                                </div>
+
+                                <!-- MODELO -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Modelo
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Ex: Fiat Cronos"
+                                        id="modalFrotaModelo">
+                                </div>
+
+                                <!-- COR -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Cor
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Preta"
+                                        id="modalFrotaCor">
+                                </div>
+
+                                <!-- LOCATÁRIO -->
+                                <div class="col-12 col-md-6 mb-3"
+                                     id="locatario">
+                                    <label class="form-label fw-bold">
+                                        Locatário
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        value="João Silva"
+                                        readonly>
+                                </div>
+
+                                <!-- STATUS -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Status da Frota
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="modalFrotaStatus">
+
+                                        <option value=""
+                                                selected
+                                                disabled>
+                                            Selecione o status
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <!-- ABA CUSTOS -->
+                    <div class="tab-pane fade" id="tabFrotaCustos">
+
+                        <!-- DATATABLE -->
+                        <div class="row mt-4">
+
+                            <div class="col-12">
+
+                                <div class="card rounded-4 shadow-sm border-0 p-3">
+
+                                    <!-- TÍTULO -->
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                                        <h5 class="card-title mb-0 fw-bold">
+                                            Custos Anuais
+                                        </h5>
+
+                                        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm btnInserirNovoCusto">
+
+                                            <i class="bi bi-plus-circle me-1"></i>
+
+                                            Novo Custo
+
+                                        </button>
+
+                                    </div>
+                                    <!-- TABELA -->
+                                    <div class="table-responsive">
+
+                                        <table id="custoTableLista" class="table table-striped align-middle">
+
+                                            <thead class="table-dark">
+
+                                                <tr>
+                                                    <th>
+                                                        Custo
+                                                    </th>
+
+                                                    <th>
+                                                        Vencimento
+                                                    </th>
+
+                                                    <th>
+                                                        Valor
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+
+                                                    <th class="text-center" width="120"></th>
+
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>
+                                                        IPVA 1/4
+                                                    </td>
+
+                                                    <td>
+                                                        05/01/2026
+                                                    </td>
+
+                                                    <td>
+                                                        R$ 74,00
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge-status bg-success text-white">
+                                                            Pago
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div class="d-flex justify-content-center gap-2">
+
+                                                            <button class="btn btn-sm btn-warning rounded-3 btnEditarCusto" >
+                                                                <!-- data-bs-toggle="modal"
+                                                            data-bs-target="#modalCusto" -->
+                                                                <i class="bi bi-pencil-fill"></i>
+
+                                                            </button>
+
+                                                            <button class="btn btn-sm btn-danger rounded-3 btnExcluirCusto" >
+
+                                                                <i class="bi bi-trash-fill"></i>
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        IPVA 1/4
+                                                    </td>
+
+                                                    <td>
+                                                        05/01/2026
+                                                    </td>
+
+                                                    <td>
+                                                        R$ 74,00
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge-status bg-danger text-white">
+                                                            Atrasado
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div class="d-flex justify-content-center gap-2">
+
+                                                            <button class="btn btn-sm btn-warning rounded-3 btnEditarCusto">
+
+                                                                <i class="bi bi-pencil-fill"></i>
+
+                                                            </button>
+
+                                                            <button class="btn btn-sm btn-danger rounded-3 btnExcluirCusto" >
+
+                                                                <i class="bi bi-trash-fill"></i>
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        IPVA 1/4
+                                                    </td>
+
+                                                    <td>
+                                                        05/01/2026
+                                                    </td>
+
+                                                    <td>
+                                                        R$ 74,00
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge-status bg-primary text-white">
+                                                            Aberto
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div class="d-flex justify-content-center gap-2">
+
+                                                            <button class="btn btn-sm btn-warning rounded-3 btnEditarCusto">
+
+                                                                <i class="bi bi-pencil-fill"></i>
+
+                                                            </button>
+
+                                                            <button class="btn btn-sm btn-danger rounded-3 btnExcluirCusto" >
+
+                                                                <i class="bi bi-trash-fill"></i>
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+
+                                            <!-- FOOTER TOTAL -->
+                                            <tfoot>
+                                                <tr class="table-secondary fw-bold">
+                                            
+                                                    <td colspan="5" class="text-start">
+                                            
+                                                        <span class="text-success me-4">
+                                                            <i class="bi bi-check-circle-fill"></i>
+                                                            Pago:
+                                                            <strong id="valorPago">R$ 0,00</strong>
+                                                        </span>
+                                            
+                                                        <span class="text-primary me-4">
+                                                            <i class="bi bi-clock-fill"></i>
+                                                            Em Aberto:
+                                                            <strong id="valorAberto">R$ 0,00</strong>
+                                                        </span>
+                                            
+                                                    </td>
+                                            
+                                                </tr>
+                                            </tfoot>
+
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>                        
+
+                    </div>
+
+                    <!-- ABA DOCUMENTOS -->
+                    <div class="tab-pane fade" id="tabFrotaDocumentos">
+
+                        <!-- TIPO DE DOCUMENTO -->
+                        <div class="mb-3">
+                            <div class="d-flex gap-2">
+                        
+                                <div class="flex-grow-1">
+                                    <label class="form-label fw-bold">
+                                        Tipo de Documento
+                                    </label>
+                                </div>
+                        
+                                <div style="width: 90px;">
+                                    <label class="form-label fw-bold">
+                                        Parcela
+                                    </label>
+                                </div>
+                        
+                            </div>
+                        
+                            <div class="input-group">
+                        
+                                <select id="frotaTipoDocumento" class="form-select rounded-start-3">
+                                    <option value="" selected disabled>Selecione um tipo de documento</option>
+                                    <option value="documento">Documento</option>
+                                    <option value="ipva">IPVA</option>
+                                    <option value="licenciamento">Licenciamento</option>
+                                </select>
+                        
+                                <input
+                                    type="number"
+                                    id="frotaNumeroDocumento"
+                                    class="form-control rounded-end-3"
+                                    style="max-width: 90px;"
+                                    min="0"
+                                    value="0"
+                                    placeholder="Nº"
+                                >
+                        
+                            </div>
+                        </div>
+
+                        <!-- UPLOAD -->
+                        <div
+                            class="border border-2 border-secondary-subtle rounded-4 p-4 text-center position-relative bg-light mb-3"
+                            style="border-style: dashed !important; cursor: pointer;"
+                            id="frotaUploadArea">
+
+                            <input
+                                type="file"
+                                id="frotaArquivo"
+                                class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                style="cursor: pointer;">
+
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="bi bi-cloud-arrow-up-fill fs-1 text-secondary mb-2"></i>
+                                <h6 class="fw-bold mb-1">Arraste o arquivo aqui</h6>
+                                <small class="text-muted">ou clique para selecionar um arquivo</small>
+                                <small class="text-secondary mt-1">JPG, PNG ou PDF</small>
+                            </div>
+
+                        </div>
+
+                        <!-- BOTÃO ENVIAR -->
+                        <div class="d-flex justify-content-end mb-3">
+                            <button
+                                type="button"
+                                id="btEnviarDocumentoFrota"
+                                class="btn btn-dark rounded-3"
+                                disabled>
+                                <i class="bi bi-upload me-1"></i>
+                                Enviar Arquivo
+                            </button>
+                        </div>
+
+                        <!-- TABELA -->
+                        <div class="table-responsive">
+                            <table id="tabelaDocumentosFrota" class="table table-striped align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Documento</th>
+                                        <th class="d-none d-lg-table-cell">Tipo</th>
+                                        <th class="d-none d-lg-table-cell">Data</th>
+                                        <th class="text-center">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaDocumentosFrota">
+                                    <tr id="frotaSemDocumentos">
+                                        <td colspan="4" class="text-center text-muted py-3">
+                                            Nenhum documento enviado
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Fechar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    id="btSalvar">
+
+                    Salvar
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- MODAL CUSTO -->
+<div class="modal fade" id="modalCusto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+
+                <h5 class="modal-title">
+                    Cadastro de Custo
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <div class="tab-content">
+                    <form id="formCusto">
+                        <div class="row mb-3">
+                            <!-- CUSTO -->
+                            <div class="col-10">
+                        
+                                <label class="form-label fw-bold">
+                                    Custo
+                                </label>
+                        
+                                <input
+                                    type="text"
+                                    class="form-control rounded-3"
+                                    id="modalFrotaCustoCusto"
+                                    placeholder="Digite o custo"
+                                >
+                            </div>
+                        
+                            <!-- PARCELA -->
+                            <div class="col-2">
+                        
+                                <label class="form-label fw-bold">
+                                    Parcela
+                                </label>
+                        
+                                <input
+                                    type="number"
+                                    class="form-control rounded-3 text-center"
+                                    id="modalFrotaCustoParcela"
+                                    value="1"
+                                    min="1"
+                                >
+                        
+                            </div>
+                        
+                        </div>
+                        
+                        <!-- VENCIMENTO -->
+                        <div class="mb-3">
+                        
+                            <label class="form-label fw-bold">
+                                Data de Vencimento
+                            </label>
+                        
+                            <input
+                                type="date"
+                                class="form-control rounded-3"
+                                id="modalFrotaCustoVencimento"
+                            >
+                        
+                        </div>
+    
+                        <!-- VALOR -->
+                        <div class="mb-3">
+    
+                            <label class="form-label fw-bold">
+                                Valor
+                            </label>
+    
+                            <input 
+                                type="text"
+                                class="form-control rounded-3"
+                                placeholder="R$ 0,00"
+                                id="modalFrotaCustoValor"
+                            >
+    
+                        </div>
+    
+                        <!-- STATUS -->
+                        <div class="col-md-12 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Status
+                            </label>
+
+                            <select id="modalFrotaCustoStatus" class="form-select rounded-3">
+                                <option value="" selected disabled>Selecione o status</option>
+                            </select>
+
+                        </div>
+
+    
+                    </form>
+                </div>
+                    
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal"
+
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-success rounded-3"
+                    id="btSalvarCusto"
+                >
+                    Salvar Custo
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

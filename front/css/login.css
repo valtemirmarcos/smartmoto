@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* TOPO */
+.top-bar {
+  background-color: #000;
+  padding: 15px 30px;
+}
+.logo-img {
+  max-height: 60px;
+}
+.social-icons a {
+  color: #FFD700;
+  font-size: 1.5rem;
+  margin-left: 15px;
+  transition: 0.3s;
+}
+.social-icons a:hover {
+  color: #e6c200;
+}
+
+/* LADO ESQUERDO */
+.bg-logo {
+  background: url("../imgs/sobre-1743x2048.jpg") no-repeat center center;
+  background-size: cover;
+  background-color: #000;
+  height: 100vh;
+  position: relative;
+}
+.bg-logo::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5); /* overlay escuro */
+}
+
+/* LADO DIREITO */
+.login-section {
+  background-color: #000;
+  height: 100vh;
+}
+.card-login {
+  background-color: #111;
+  padding: 40px;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+.card-login h2 {
+  color: #FFD700;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+.form-control {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff; /* texto branco */
+}
+.form-control::placeholder {
+  color: #ccc; /* placeholder cinza */
+  opacity: 1;
+}
+.form-control:focus {
+  background-color: #333;
+  border-color: #FFD700;
+  box-shadow: 0 0 0 0.25rem rgba(255,193,7,0.25);
+  color: #fff; /* garantir texto branco */
+}
+.btn-custom {
+  background-color: #FFD700;
+  color: #000;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+.btn-custom:hover {
+  background-color: #e6c200;
+}
+
+/* RODAPÉ */
+footer {
+  background-color: #000;
+  color: #888;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+  margin-top: auto;
+}

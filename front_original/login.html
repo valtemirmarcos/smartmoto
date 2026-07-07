@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Smartmoto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="./imgs/cropped-icon11-1-192x192.png" type="image/png">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* TOPO */
+      .top-bar {
+        background-color: #000;
+        padding: 15px 30px;
+      }
+      .logo-img {
+        max-height: 60px;
+      }
+      .social-icons a {
+        color: #FFD700;
+        font-size: 1.5rem;
+        margin-left: 15px;
+        transition: 0.3s;
+      }
+      .social-icons a:hover {
+        color: #e6c200;
+      }
+
+      /* LADO ESQUERDO */
+      .bg-logo {
+        background: url("./imgs/sobre-1743x2048.jpg") no-repeat center center;
+        background-size: cover;
+        background-color: #000;
+        height: 100vh;
+        position: relative;
+      }
+      .bg-logo::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.5); /* overlay escuro */
+      }
+
+      /* LADO DIREITO */
+      .login-section {
+        background-color: #000;
+        height: 100vh;
+      }
+      .card-login {
+        background-color: #111;
+        padding: 40px;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      }
+      .card-login h2 {
+        color: #FFD700;
+        font-weight: 700;
+        margin-bottom: 30px;
+      }
+      .form-control {
+        background-color: #222;
+        border: 1px solid #444;
+        color: #fff; /* texto branco */
+      }
+      .form-control::placeholder {
+        color: #ccc; /* placeholder cinza */
+        opacity: 1;
+      }
+      .form-control:focus {
+        background-color: #333;
+        border-color: #FFD700;
+        box-shadow: 0 0 0 0.25rem rgba(255,193,7,0.25);
+        color: #fff; /* garantir texto branco */
+      }
+      .btn-custom {
+        background-color: #FFD700;
+        color: #000;
+        font-weight: bold;
+        border-radius: 50px;
+        transition: 0.3s;
+      }
+      .btn-custom:hover {
+        background-color: #e6c200;
+      }
+
+      /* RODAPÉ */
+      footer {
+        background-color: #000;
+        color: #888;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 0.9rem;
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- TOPO -->
+    <header class="top-bar">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
+            <img src="./imgs/5-copiar.png" alt="Smartmoto Logo" class="logo-img">
+          </div>
+          <div class="col-12 col-md-6 text-center text-md-end">
+            <div class="social-icons">
+              <a href="#"><i class="bi bi-facebook"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+              <a href="#"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container-fluid flex-grow-1">
+      <div class="row">
+
+        <!-- Lado Esquerdo -->
+        <div class="col-md-6 d-none d-md-block bg-logo"></div>
+
+        <!-- Lado Direito (Login) -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center login-section">
+          <div class="w-75">
+            <div class="card card-login">
+              <h2 class="text-center">Login</h2>
+              <form>
+                <div class="mb-3">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail">
+                </div>
+                <div class="mb-3">
+                  <label for="senha" class="form-label">Senha</label>
+                  <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-custom">Entrar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+      © 2025 Smartmoto. Todos os direitos reservados.
+    </footer>
+
+  </body>
+</html>
