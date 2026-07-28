@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import func
+from sqlalchemy import func, or_, and_
 from models.Franqueado import Franqueado
+from models.FranquiaFraqueadoLocatario import FranquiaFraqueadoLocatario 
 from config.funcoes import remove_campos, apenasNumeros
 from config.filtros import filtros_basicos_franquiado
 import os
@@ -123,13 +124,29 @@ class FranquiadosRepository:
             tipo_acesso = dados.get("tipoAcessoID")
             franquiado = dados.get("franquiado_id")
 
-            query = self.db.query(Franqueado)
+            query = (
+                self.db.query(Franqueado, FranquiaFraqueadoLocatario)
+                .outerjoin(
+                    FranquiaFraqueadoLocatario,
+                    and_(
+                        FranquiaFraqueadoLocatario.franquiado_id == Franqueado.id,
+                        FranquiaFraqueadoLocatario.locatarios_id == None,
+                    )
+                )
+            )
+            # adicionar o franquia_franquiador_locatario_id
             query = filtros_basicos_franquiado(query, filtros)
             if tipo_acesso != 1:
                 query = query.filter(Franqueado.id == franquiado) 
+            franquiados = query.all()
+            saida = []
+            for franquiado, franquiafraqueadolocatario in franquiados:
 
-            franquiado = query.all()
-            return franquiado
+                item = {**franquiado.__dict__}
+                item["franquia_franquiador_locatario_id"] = franquiafraqueadolocatario.id if franquiafraqueadolocatario else None 
+                saida.append(item)
+
+            return saida            
 
         except Exception as e:
             self.db.rollback()

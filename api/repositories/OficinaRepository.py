@@ -7,6 +7,7 @@ from models.Frota import Frota
 from models.FranquiaFraqueadoLocatario import FranquiaFraqueadoLocatario
 from models.Locatario import Locatario
 from models.User import User
+from models.Franqueado import Franqueado
 
 from config.funcoes import remove_campos, apenasNumeros, valida_placa, validar_campos_obrigatorios, formatar_placa
 
@@ -119,10 +120,14 @@ class OficinaRepository:
 
             filtro_token = filtro_basico_token(FranquiaFraqueadoLocatario, dados, parametros)
             query = (
-                self.db.query(Oficina, Frota, Locatario, User)
+                self.db.query(Oficina, Frota, Locatario, User, Franqueado)
                 .join(
                     Frota,
                     Frota.id == Oficina.frota_id
+                )
+                .join(
+                    Franqueado,
+                    Franqueado.id == Frota.fraqueado_id,
                 )
                 .join(
                     Locatario,
@@ -139,16 +144,21 @@ class OficinaRepository:
                     User,
                     User.id == Oficina.log_id
                 )
+                .filter(
+                    Oficina.deleted_at.is_(None)
+                )
             )
 
             query = filtros_basicos_oficina(query, filtro)
             oficinas = query.filter(*filtro_token).all()
             saida = []
-            for oficina, frota, locatario, user in oficinas:
+            for oficina, frota, locatario, user, franqueado in oficinas:
                 item = {**oficina.__dict__}
                 item['placa'] = formatar_placa(frota.placa) if frota else None
+                item['placasf'] = frota.placa if frota else None
                 item["usuario"] = user.nome if user else None
                 item["locatario"] = locatario.nome if locatario else None
+                item["fraqueado"] = franqueado.nome if franqueado else None
                 saida.append(item)
 
             # sql = str(query.statement.compile(compile_kwargs={"literal_binds": True}))

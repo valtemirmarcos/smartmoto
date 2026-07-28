@@ -9,7 +9,7 @@ class MultasController:
 
     def create_multas(self, data, dados_token):
         try:
-            return success_response(self.repository.create_multas(data), "Multa cadastrada com sucesso!")
+            return success_response(self.repository.create_multas(data, dados_token), "Multa cadastrada com sucesso!")
         except ValueError as e:
             return exception_response(str(e), 404)
         except Exception as error:
@@ -17,7 +17,7 @@ class MultasController:
 
     def update_multas(self, multa_id, data, dados_token):
         try:
-            return success_response(self.repository.update_multas(multa_id,data), "Multa alterada com sucesso")
+            return success_response(self.repository.update_multas(multa_id,data, dados_token), "Multa alterada com sucesso")
         except ValueError as e:
             return exception_response(str(e), 404)
         except Exception as error:
@@ -37,7 +37,7 @@ class MultasController:
             if ativa == 1:
                 mensagem = "Multa ativada com sucesso"
 
-            return success_response(self.repository.sfdelete_multas(multa_id, ativa), mensagem)
+            return success_response(self.repository.sfdelete_multas(multa_id, ativa, dados_token), mensagem)
         except ValueError as e:
             return exception_response(str(e), 404)
         except Exception as error:

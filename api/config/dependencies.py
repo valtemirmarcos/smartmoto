@@ -11,4 +11,13 @@ def usuario_logado(request: Request):
         )
 
     token = auth.replace("Bearer ", "")
-    return ler_token(token)
+
+    dados = ler_token(token)
+
+    if not dados["valido"]:
+        raise HTTPException(
+            status_code=401,
+            detail=dados["erro"]
+        )
+
+    return dados

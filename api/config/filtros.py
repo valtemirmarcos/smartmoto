@@ -177,6 +177,9 @@ def filtros_basicos_multas(query, filtro):
     if filtro.get('status') is not None:
         query = query.filter(Multa.status_id == filtro['status'])
 
+    if filtro.get('franqueado') is not None:
+        query = query.filter(Frota.fraqueado_id == filtro['franqueado'])
+
     if filtro.get('frota') is not None:
         query = query.filter(Multa.frota_id == filtro['frota'])
 
@@ -188,6 +191,9 @@ def filtros_basicos_multas(query, filtro):
 
     if filtro.get('dataFim') is not None:
         query = query.filter(Multa.data_infracao <= filtro['dataFim'])
+
+    if filtro.get('locatario') is not None:
+        query = query.filter(Locatario.id == filtro['locatario'])
 
     return query
 
@@ -205,7 +211,7 @@ def filtros_basicos_faturamentos(query, filtro):
         query = query.filter(Faturamento.ano == filtro['ano'])
 
     if filtro.get('formaPagamento') is not None:
-        query = query.filter(Faturamento.tipo_pagamento_id == filtro['formaPagamento'])
+        query = query.filter(Faturamento.tipo_pagamento == filtro['formaPagamento'])
 
     if filtro.get('dataInicio') is not None:
         query = query.filter(Faturamento.data_pagamento >= filtro['dataInicio'])

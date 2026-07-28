@@ -15,8 +15,11 @@
     <!-- BOTÕES -->
     <div class="d-flex gap-2">
 
-        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
-        data-bs-target="#modalFaturamento">
+        <button 
+            class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   
+            data-bs-toggle="modal"
+            id="btModalNovoFaturamento"
+        >
 
             <i class="bi bi-plus-circle me-1"></i>
 
@@ -28,7 +31,7 @@
         <button 
             class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
             data-bs-toggle="modal"
-            data-bs-target="#modalFiltroFaturamento"
+            id="btModalFiltroFaturamento"
         >
 
             <i class="bi bi-funnel-fill me-1"></i>
@@ -82,36 +85,6 @@
             <div class="modal-body p-4">
         
                 <div class="d-flex flex-column gap-4">
-
-                    <!-- FRANQUIADO -->
-                    <div>
-
-                        <label class="form-label fw-semibold">
-                            Franquiado
-                        </label>
-
-                        <select class="form-select rounded-4">
-
-                            <option>
-                                Todos
-                            </option>
-
-                            <option>
-                                João Silva
-                            </option>
-
-                            <option>
-                                Carlos Souza
-                            </option>
-
-                            <option>
-                                Marcos Lima
-                            </option>
-
-                        </select>
-
-                    </div>
-
                     <!-- STATUS -->
                     <div>
 
@@ -119,28 +92,8 @@
                             Status
                         </label>
 
-                        <select class="form-select rounded-4">
-
-                            <option>
-                                Todos
-                            </option>
-
-                            <option>
-                                Pago
-                            </option>
-
-                            <option>
-                                Pendente
-                            </option>
-
-                            <option>
-                                Atrasado
-                            </option>
-
-                            <option>
-                                Cancelado
-                            </option>
-
+                        <select id="selectStatusFaturamento" class="form-select rounded-4">
+                            <option value="">Todos</option>
                         </select>
 
                     </div>
@@ -155,6 +108,7 @@
                         <input 
                             type="date"
                             class="form-control rounded-4"
+                            id="inputDataInicial"
                         >
 
                     </div>
@@ -169,6 +123,7 @@
                         <input 
                             type="date"
                             class="form-control rounded-4"
+                            id="inputDataFinal"
                         >
 
                     </div>
@@ -197,7 +152,7 @@
                 <button 
                     type="button"
                     class="btn btn-dark rounded-4 px-4 py-2"
-                    data-bs-dismiss="modal"
+                    id="btFiltrarFaturamento"
                 >
         
                     <i class="bi bi-search me-1"></i>
@@ -314,15 +269,11 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalFaturamento">
-
+                                            <button class="btn btn-sm btn-warning rounded-3 editarModalFaturamento" data-bs-toggle="modal">
                                                 <i class="bi bi-pencil-fill"></i>
-
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
-                                            data-bs-target="#modalExcluir">
+                                            <button class="btn btn-sm btn-danger rounded-3 excluirModalFaturamento"  data-bs-toggle="modal">
 
                                                 <i class="bi bi-trash-fill"></i>
 
@@ -423,14 +374,14 @@
                                         <div class="d-flex justify-content-center gap-2">
 
                                             <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalFaturamento">
+                                            >
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
                                             <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
-                                            data-bs-target="#modalExcluir">
+                                            >
 
                                                 <i class="bi bi-trash-fill"></i>
 
@@ -452,14 +403,14 @@
                                     </td>
 
                                     <td>
-                                        R$ 20000,00
+                                        <span id="totalEntrada"></span>
                                     </td>
                                     <td>
-                                        R$ 10000,00
+                                        <span id="totalSaida"></span>
                                     </td>
 
                                     <td>
-                                        R$ 10000,00
+                                        <span id="totalLiquido"></span>
                                     </td>
                                     <td colspan="4"></td>
 
@@ -512,7 +463,7 @@
             <!-- BODY -->
             <div class="modal-body">
 
-                <form>
+                <form id="frmFaturamento">
 
                     <!-- FRANQUIADO -->
                     <div class="mb-3">
@@ -520,25 +471,9 @@
                         <label class="form-label fw-bold">
                             Franquiado
                         </label>
-
-                        <select class="form-select rounded-3">
-
-                            <option selected disabled>
-                                Selecione o franquiado
-                            </option>
-
-                            <option>
-                                João Silva
-                            </option>
-
-                            <option>
-                                Carlos Souza
-                            </option>
-
-                            <option>
-                                Marcos Lima
-                            </option>
-
+                    
+                        <select id="selectFranquiadoModal" class="form-select rounded-3">
+                            <option value="" selected disabled>Selecione o franquiado</option>
                         </select>
 
                     </div>
@@ -553,6 +488,7 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="05/26"
+                            id="modalFaturamentoMesAno"
                         >
 
                     </div>
@@ -568,6 +504,7 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="R$ 0,00"
+                            id="modalFaturamentoEntrada"
                         >
 
                     </div>
@@ -583,24 +520,11 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="R$ 0,00"
+                            id="modalFaturamentoSaida"
                         >
 
                     </div>
 
-                    <!-- LÍQUIDO -->
-                    <div class="mb-3">
-
-                        <label class="form-label fw-bold">
-                            Líquido
-                        </label>
-
-                        <input 
-                            type="text"
-                            class="form-control rounded-3"
-                            placeholder="R$ 0,00"
-                        >
-
-                    </div>
 
                     <!-- DATA PAGAMENTO -->
                     <div class="mb-3">
@@ -612,6 +536,7 @@
                         <input 
                             type="date"
                             class="form-control rounded-3"
+                            id="modalFaturamentoDataPagamento"
                         >
 
                     </div>
@@ -623,29 +548,12 @@
                             Tipo de Faturamento
                         </label>
 
-                        <select class="form-select rounded-3">
-
-                            <option selected disabled>
-                                Selecione o tipo
-                            </option>
-
-                            <option>
-                                Mensalidade
-                            </option>
-
-                            <option>
-                                Comissão
-                            </option>
-
-                            <option>
-                                Repasse
-                            </option>
-
-                            <option>
-                                Bonificação
-                            </option>
-
-                        </select>
+                        <input 
+                            type="text"
+                            class="form-control rounded-3"
+                            placeholder="Calção, Franquia, Multa"
+                            id="modalFaturamentoTipo"
+                        >
 
                     </div>
 
@@ -655,25 +563,8 @@
                         <label class="form-label fw-bold">
                             Status
                         </label>
-
-                        <select class="form-select rounded-3">
-
-                            <option>
-                                Pendente
-                            </option>
-
-                            <option>
-                                Pago
-                            </option>
-
-                            <option>
-                                Atrasado
-                            </option>
-
-                            <option>
-                                Cancelado
-                            </option>
-
+                        <select id="selectModalFaturamentoStatus" class="form-select rounded-3">
+                            <option value="" selected disabled>Selecione o status</option>
                         </select>
 
                     </div>
@@ -696,75 +587,9 @@
                 <button 
                     type="button"
                     class="btn btn-success rounded-3"
+                    id="modalBtSalvarFaturamento"
                 >
                     Salvar Faturamento
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
-<div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-
-        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-
-            <!-- HEADER -->
-            <div class="modal-header bg-danger text-white border-0">
-
-                <h5 class="modal-title fw-bold">
-                    Confirmar Exclusão
-                </h5>
-
-                <button 
-                    type="button" 
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                ></button>
-
-            </div>
-
-            <!-- BODY -->
-            <div class="modal-body text-center py-4">
-
-                <div class="mb-3">
-
-                    <i class="bi bi-trash-fill text-danger" style="font-size: 60px;"></i>
-
-                </div>
-
-                <h6 class="fw-bold mb-2">
-                    Deseja realmente excluir?
-                </h6>
-
-                <p class="text-muted small mb-0">
-                    Esta ação não poderá ser desfeita.
-                </p>
-
-            </div>
-
-            <!-- FOOTER -->
-            <div class="modal-footer border-0 justify-content-center pb-4">
-
-                <button 
-                    type="button"
-                    class="btn btn-light border rounded-3 px-4"
-                    data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </button>
-
-                <button 
-                    type="button"
-                    class="btn btn-danger rounded-3 px-4"
-                >
-                    Excluir
                 </button>
 
             </div>

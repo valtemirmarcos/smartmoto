@@ -40,7 +40,7 @@ async function carregarPagina(pagina) {
             iniciarEventosModalLocatario();
             iniciarBotaoSalvarLocatario();
             iniciarAbasLocatario();
-            // buscarCepLocatario();
+            // iniciarLocatarioMultas();
         }
         if (pagina === "calcao") {
             iniciarCalcao();
@@ -69,10 +69,13 @@ async function carregarPagina(pagina) {
             // carregarAutocompletePlaca("id");
         }
         if (pagina === "multa") {
-            iniciarMulta();
+            iniciarMultas();
+            // carregarAutocompletePlaca("id");
         }
         if (pagina === "faturamento") {
             iniciarFaturamento();
+            carregarStatusFiltrosFaturamento();
+            carregarStatusFaturamento();
         }
         if (pagina === "oficina") {
             iniciarOficina();

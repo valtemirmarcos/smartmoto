@@ -12,7 +12,7 @@ class Faturamento(BaseModel):
     valor_entrada = Column(Numeric(10, 2), nullable=True)
     valor_saida = Column(Numeric(10, 2), nullable=True)
     data_pagamento = Column(Date, nullable=True)
-    tipo_pagamento_id = Column(Integer, nullable=True)
+    tipo_pagamento = Column(String(100), nullable=True)
     status_id = Column(Integer, nullable=False)
     log_id = Column(Integer, nullable=False)
 

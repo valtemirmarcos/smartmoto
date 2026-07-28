@@ -74,10 +74,13 @@ class MultasRepository:
             campos_para_remover = ["franquia_franquiador_locatario_id", "frota_id", "codigo"]
             dados_multa = remove_campos(data, campos_para_remover)
 
+            for campo, valor in dados_multa.items():
+                if hasattr(multa, campo):
+                    setattr(multa, campo, valor)
+            
             self.db.commit()
             self.db.refresh(multa)
-
-            return multa
+            return dados_multa.items()
 
         except Exception as e:
             self.db.rollback()
@@ -109,13 +112,13 @@ class MultasRepository:
             if not multa:
                 raise ValueError("multa não encontrada")
 
-            if ativa == 0:
+            if ativa == 2:
                 multa.deleted_at = func.now()
 
             elif ativa == 1:
                 multa.deleted_at = None
 
-            multa.status_id = ativa
+            # multa.status_id = ativa
             multa.log_id = log_id
 
             self.db.commit()
@@ -137,20 +140,24 @@ class MultasRepository:
             Status = aliased(Codigo, name="status")
             FormaPgto = aliased(Codigo, name="forma_pgto")
             query = (
-                self.db.query(Multa, Frota, Status, FormaPgto, User)
+                self.db.query(Multa, Frota, Status, FormaPgto, User, Locatario)
                 .join(
                     Frota,
                     Frota.id == Multa.frota_id
                 )
+
                 .join(
-                    Locatario,
-                    Locatario.frota_id == Multa.frota_id
-                )
-                .outerjoin(
                     FranquiaFraqueadoLocatario,
                     and_(
                         FranquiaFraqueadoLocatario.franquiado_id == Frota.fraqueado_id,
-                        FranquiaFraqueadoLocatario.locatarios_id == Locatario.id,
+                        FranquiaFraqueadoLocatario.id == Multa.franquia_franquiador_locatario_id,
+                    )
+                )
+                .join(
+                    Locatario,
+                    and_(
+                        Locatario.id == FranquiaFraqueadoLocatario.locatarios_id,
+                        Locatario.frota_id == Multa.frota_id,
                     )
                 )
                 .outerjoin(
@@ -171,16 +178,23 @@ class MultasRepository:
                     User,
                     User.id == Multa.log_id
                 )
+                .filter(
+                    Multa.deleted_at.is_(None)
+                )
             )
             query = filtros_basicos_multas(query, filtro)
             multas = query.filter(*filtro_token).all()
             saida = []
-            for multa, frota, status, formaPgto, user in multas:
+            for multa, frota, status, formaPgto, user, locatario in multas:
                 item = {**multa.__dict__}
                 item['placa'] = formatar_placa(frota.placa) if frota else None
+                item['placasf'] = frota.placa if frota else None
+                item['fraqueado_id'] = frota.fraqueado_id if frota else None
                 item["pagamento"] = formaPgto.descricao if formaPgto else None
                 item["status"] = status.descricao if status else None
                 item["usuario"] = user.nome if user else None
+                item["locatario_id"] = locatario.id if user else None
+                item["locatario_nome"] = locatario.nome if user else None
                 saida.append(item)
 
             # sql = str(query.statement.compile(compile_kwargs={"literal_binds": True}))

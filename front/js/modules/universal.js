@@ -403,3 +403,82 @@ async function excluirArquivo(idAnexo, callback = null) {
     }
 
 }
+function formatarReal(valor) {
+    return valor != null && valor !== ""
+        ? Number(valor).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL"
+          })
+        : "";
+}
+function aplicarMascaraMesAno(seletor) {
+    $(document).on('input', seletor, function () {
+        let valor = $(this).val().replace(/\D/g, '').substring(0, 4);
+
+        if (valor.length >= 2) {
+            let mes = parseInt(valor.substring(0, 2), 10);
+
+            if (mes > 12) mes = 12;
+            if (mes < 1 && valor.length === 2) mes = 1;
+
+            valor = String(mes).padStart(2, '0') + valor.substring(2);
+        }
+
+        if (valor.length > 2) {
+            valor = valor.substring(0, 2) + '/' + valor.substring(2);
+        }
+
+        $(this).val(valor);
+    });
+}
+function obterMesAnoAtual() {
+    const hoje = new Date();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const ano = String(hoje.getFullYear()).slice(-2);
+    return `${mes}/${ano}`;
+}
+function limparLetrasNumeros(valor) {
+    return valor
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+}
+function formatarMesAno(mes, ano) {
+    mes = String(mes).padStart(2, '0');
+    ano = String(ano).padStart(2, '0');
+    return `${mes}/${ano}`;
+}
+function primeiraLetraMaiuscula(texto) {
+    if (!texto) return "";
+
+    texto = texto.trim().toLowerCase();
+
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+// Retorna o primeiro dia do mês atual no formato YYYY-MM-DD
+function primeiroDiaMesAtual() {
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+
+    return `${ano}-${mes}-01`;
+}
+
+// Retorna o último dia do mês atual no formato YYYY-MM-DD
+function ultimoDiaMesAtual() {
+    const hoje = new Date();
+    const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
+
+    const ano = ultimoDia.getFullYear();
+    const mes = String(ultimoDia.getMonth() + 1).padStart(2, '0');
+    const dia = String(ultimoDia.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+}
+function formatarMoeda(valor) {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(valor);
+}

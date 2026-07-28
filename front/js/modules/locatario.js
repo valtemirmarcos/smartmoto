@@ -397,10 +397,12 @@ async function abrirModalLocatario(id, user_locatario_id) {
 
         const response  = await api.get(`/api/locatarios/listar?id=${id}`);
         const locatario = response.data.resultado[0];
+        
         console.log(locatario);
         btSalvar.dataset.franquia_franquiador_locatario_id = locatario.franquia_franquiador_locatario_id;
         document.getElementById("btEnviarDocumentoLocatario").dataset.franquia_franquiador_locatario_id = locatario.franquia_franquiador_locatario_id;
         document.getElementById("btEnviarDocumentoLocatario").dataset.locatarioId = id;
+        document.getElementById("btnAbaLocatarioMultas").dataset.locatarioId = id;
 
         document.getElementById("statusLocatario").checked          = locatario.status_id === 1;
         document.getElementById("modalLocatarioFranquiado").value   = locatario.fraqueado_id         || "";
@@ -684,7 +686,9 @@ function iniciarAbasLocatario() {
     const abaDados = document.querySelector(
         '#tabsLocatario [data-bs-target="#tabLocatarioDados"]'
     );
-
+    const abaMultas = document.querySelector(
+        '#tabsLocatario [data-bs-target="#tabLocatarioMultas"]'
+    );
     const abaDocumentos = document.querySelector(
         '#tabsLocatario [data-bs-target="#tabLocatarioDocumentos"]'
     );
@@ -692,11 +696,12 @@ function iniciarAbasLocatario() {
     abaDados.addEventListener('shown.bs.tab', () => {
         btnSalvar.classList.remove('d-none');
     });
-
+    abaMultas.addEventListener('shown.bs.tab', () => {
+        btnSalvar.classList.add('d-none');
+    });
     abaDocumentos.addEventListener('shown.bs.tab', () => {
         btnSalvar.classList.add('d-none');
     });
-
 }
 
 // habilita botão ao selecionar arquivo
@@ -930,3 +935,4 @@ async function atualizarTabelaLocatario(idLocatario) {
     carregarArquivosLocatarios(response.data.resultado);
     iniciarLocatario();
 }
+

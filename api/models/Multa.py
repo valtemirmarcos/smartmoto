@@ -19,4 +19,5 @@ class Multa(BaseModel):
     pagamento_id = Column(Integer, nullable=True)
     status_id = Column(Integer, nullable=False)
     log_id = Column(Integer, nullable=False)
+    obs = Column(String(1000), nullable=True)
 
