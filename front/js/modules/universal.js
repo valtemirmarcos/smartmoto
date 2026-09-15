@@ -482,3 +482,179 @@ function formatarMoeda(valor) {
         currency: 'BRL'
     }).format(valor);
 }
+function dataAtual() {
+    const data = new Date();
+
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+}
+function botoesExcelPdf(titulo = 'Relatório') {
+
+    return [
+
+        // =========================================================
+        // EXCEL
+        // =========================================================
+        {
+            extend: 'excelHtml5',
+            text: 'Excel',
+            title: titulo,
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+
+                        if (typeof data === 'string') {
+
+                            // Remove apóstrofo e espaços especiais
+                            data = data
+                                .replace(/^'/, '')
+                                .replace(/\u00A0/g, ' ')
+                                .trim();
+
+                            // Converte R$ 257,00 para número 257
+                            if (/^R\$\s*[\d.]+,\d{2}$/.test(data)) {
+
+                                return parseFloat(
+                                    data
+                                        .replace('R$', '')
+                                        .trim()
+                                        .replace(/\./g, '')
+                                        .replace(',', '.')
+                                );
+                            }
+                        }
+
+                        return data;
+                    }
+                }
+            },
+
+            customize: function (xlsx) {
+
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                var styles = xlsx.xl['styles.xml'];
+
+                // =====================================================
+                // FORMATO DE MOEDA BRASILEIRO
+                // =====================================================
+
+                var numFmts = $('numFmts', styles);
+
+                if (numFmts.length === 0) {
+
+                    styles.documentElement.insertBefore(
+                        styles.createElement('numFmts'),
+                        styles.documentElement.firstChild
+                    );
+
+                    numFmts = $('numFmts', styles);
+                }
+
+                var numFmtId = 165;
+
+                numFmts.append(
+                    '<numFmt numFmtId="' + numFmtId +
+                    '" formatCode="[$R$-pt-BR] #,##0.00"/>'
+                );
+
+                // =====================================================
+                // CRIA ESTILO
+                // =====================================================
+
+                var cellXfs = $('cellXfs', styles);
+                var baseXf = $('xf', cellXfs).first();
+
+                cellXfs.append(
+                    '<xf numFmtId="' + numFmtId +
+                    '" fontId="' + (baseXf.attr('fontId') || 0) +
+                    '" fillId="' + (baseXf.attr('fillId') || 0) +
+                    '" borderId="' + (baseXf.attr('borderId') || 0) +
+                    '" xfId="0" applyNumberFormat="1"/>'
+                );
+
+                var styleIndex = $('xf', cellXfs).length - 1;
+
+                // =====================================================
+                // APLICA MOEDA ÀS CÉLULAS NUMÉRICAS
+                // =====================================================
+
+                $('c', sheet).each(function () {
+
+                    var cell = $(this);
+                    var value = cell.find('v').text();
+
+                    if (
+                        value !== '' &&
+                        !isNaN(value) &&
+                        cell.attr('t') !== 's'
+                    ) {
+                        cell.attr('s', styleIndex);
+                    }
+                });
+            }
+        },
+
+
+        // =========================================================
+        // PDF
+        // =========================================================
+        {
+            extend: 'pdfHtml5',
+            text: 'PDF',
+            orientation: 'landscape',
+            pageSize: 'A4',
+
+            customize: function (doc) {
+
+                // =====================================================
+                // MARGENS
+                // =====================================================
+
+                doc.pageMargins = [30, 30, 30, 30];
+
+
+                // =====================================================
+                // TÍTULO
+                // =====================================================
+
+                if (doc.content[0]) {
+
+                    doc.content[0].alignment = 'center';
+                    doc.content[0].fontSize = 16;
+                    doc.content[0].bold = true;
+                    doc.content[0].margin = [0, 0, 0, 15];
+                }
+
+
+                // =====================================================
+                // LOCALIZA A TABELA
+                // =====================================================
+
+                var tabela = doc.content.find(function (item) {
+                    return item.table;
+                });
+
+
+                if (tabela) {
+
+                    // Largura automática
+                    tabela.table.widths = Array(
+                        tabela.table.body[0].length
+                    ).fill('auto');
+
+
+                    // Centraliza a tabela na página
+                    tabela.alignment = 'center';
+
+
+                    // Espaçamento superior
+                    tabela.margin = [0, 5, 0, 0];
+                }
+            }
+        }
+
+    ];
+}

@@ -87,10 +87,10 @@
               </a>
               <div class="collapse submenu" id="relatoriosSubmenu">
                 <div class="collapse-inner">
-                  <a href="#">Recebimentos</a>
-                  <a href="#">Custos</a>
-                  <a href="#">Multas</a>
-                  <a href="#">Despesas mensais</a>
+                  <a href="#" onclick="carregarPagina('rel_custos')"">Custos</a>
+                  <a href="#" onclick="carregarPagina('rel_lucros')"">Lucro</a>
+                  <a href="#" onclick="carregarPagina('rel_custo_moto')"">Custo por Moto</a>
+                  <a href="#" onclick="carregarPagina('rel_lucro_moto')"">Lucro por Moto</a>
                 </div>
               </div>
             </li>
@@ -252,7 +252,7 @@
               </h6>
 
               <p class="text-muted small mb-0">
-                  Esta ação não poderá ser desfeita.
+                  Esta ação poderá ser desfeita.
               </p>
 
           </div>
@@ -309,7 +309,19 @@
     <script src="./js/modules/despesa_fixa.js"></script>
     <script src="./js/modules/faturamento.js"></script>
     <script src="./js/modules/oficina.js"></script>
+    <script src="./js/modules/rel_custos.js"></script>
+    <script src="./js/modules/rel_lucros.js"></script>
+    <script src="./js/modules/rel_custo_moto.js"></script>
+    <script src="./js/modules/rel_lucro_moto.js"></script>
     <script src="./js/core/app.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
     <!-- INICIAR ÚLTIMA PÁGINA -->
     <script>

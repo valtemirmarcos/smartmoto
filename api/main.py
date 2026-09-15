@@ -19,6 +19,7 @@ from routes.despesas import router as despesas
 from routes.locatarios import router as locatarios
 from routes.filtros import router as filtros
 from routes.anexos import router as anexos
+from routes.relatorios import router as relatorios
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -52,3 +53,4 @@ app.include_router(despesas, prefix="/api/despesas")
 app.include_router(locatarios, prefix="/api/locatarios")
 app.include_router(filtros, prefix="/api/filtros")
 app.include_router(anexos, prefix="/api/anexos")
+app.include_router(relatorios, prefix="/api/relatorios")

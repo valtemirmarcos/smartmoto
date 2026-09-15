@@ -83,7 +83,22 @@ async function carregarPagina(pagina) {
         if (pagina === "despesa_fixa") {
             iniciarDespesaFixa();
         }
-        
+        if (pagina === "rel_custos") {
+            iniciarRelCusto();
+        }
+        if (pagina === "rel_lucros") {
+            iniciarRelLucro();
+        }
+        if (pagina === "rel_custo_moto") {
+            iniciarRelCustoMoto();
+        }
+        if (pagina === "rel_lucro_moto") {
+            iniciarRelLucroMoto();
+        }
+        if (pagina === "despesa_fixa") {
+            carregarFranqueados(null, true);
+            carregarAutocompletePlaca();
+        }       
     } catch(err) {
         console.log(err);
         conteudo.innerHTML = `

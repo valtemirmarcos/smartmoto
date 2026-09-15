@@ -16,7 +16,7 @@
     <div class="d-flex gap-2">
 
         <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
-        data-bs-target="#modalDespesaFixa">
+        id="btModalNovaRecorrencia">
 
             <i class="bi bi-plus-circle me-1"></i>
 
@@ -28,7 +28,7 @@
         <button 
             class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
             data-bs-toggle="modal"
-            data-bs-target="#modalFiltroDespesaFixa"
+            id="btModalFiltroDespesaFixa"
         >
 
             <i class="bi bi-funnel-fill me-1"></i>
@@ -118,27 +118,22 @@
                         <label class="form-label fw-semibold">
                             Placa
                         </label>
-
-                        <select class="form-select rounded-4">
-
-                            <option>
-                                Todas
-                            </option>
-
-                            <option>
-                                TKO2H43
-                            </option>
-
-                            <option>
-                                ABC1D23
-                            </option>
-
-                            <option>
-                                XYZ9K88
-                            </option>
-
-                        </select>
-
+                    
+                        <input 
+                            type="text"
+                            id="inputPlaca"
+                            class="form-control rounded-4"
+                            placeholder="ABC1D23"
+                            autocomplete="off"
+                        >
+                    
+                        <ul 
+                            id="listaPlacas"
+                            class="list-group shadow position-absolute z-3 w-100"
+                            style="display:none; max-height:200px; overflow-y:auto;"
+                        >
+                        </ul>
+                    
                     </div>
         
                 </div>
@@ -152,12 +147,12 @@
                 <button 
                     type="button"
                     class="btn btn-light border rounded-4 px-4 py-2"
-                    data-bs-dismiss="modal"
+                    id="btModalRemoverFiltrosDespesasFixas"
                 >
         
                     <i class="bi bi-x-circle me-1"></i>
         
-                    Cancelar
+                    Remover Filtros
         
                 </button>
         
@@ -165,7 +160,7 @@
                 <button 
                     type="button"
                     class="btn btn-dark rounded-4 px-4 py-2"
-                    data-bs-dismiss="modal"
+                    id="btModalFiltrarDespesasFixas"
                 >
         
                     <i class="bi bi-search me-1"></i>
@@ -250,15 +245,13 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalDespesaFixa">
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarDespesasFixas" data-bs-toggle="modal">
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
-                                            data-bs-target="#modalExcluir">
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirDespesasFixas"  data-bs-toggle="modal">
 
                                                 <i class="bi bi-trash-fill"></i>
 
@@ -288,15 +281,13 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalDespesaFixa">
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarDespesasFixas" data-bs-toggle="modal">
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
-                                            data-bs-target="#modalExcluir">
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirDespesasFixas"  data-bs-toggle="modal">
 
                                                 <i class="bi bi-trash-fill"></i>
 
@@ -326,15 +317,13 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalDespesaFixa">
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarDespesasFixas" data-bs-toggle="modal">
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
-                                            data-bs-target="#modalExcluir">
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirDespesasFixas"  data-bs-toggle="modal">
 
                                                 <i class="bi bi-trash-fill"></i>
 
@@ -355,7 +344,7 @@
                                         Total em Despesas:
                                     </td>
 
-                                    <td>
+                                    <td id="modalDespesasFixasTotal">
                                         R$ 3.560,00
                                     </td>
                                     <td colspan="1" class="text-end"></td>
@@ -408,7 +397,7 @@
             <!-- BODY -->
             <div class="modal-body">
 
-                <form>
+                <form id="frmModalDespesasFixas">
 
                     <!-- FRANQUIADO -->
                     <div class="mb-3">
@@ -417,7 +406,7 @@
                             Franquiado
                         </label>
 
-                        <select class="form-select rounded-3">
+                        <select class="form-select rounded-3" id="selectModalDespesasFixasFranqueado">
 
                             <option selected disabled>
                                 Selecione o franquiado
@@ -443,26 +432,21 @@
                     <div class="mb-3">
 
                         <label class="form-label fw-bold">
-                            Placa da Moto
+                            Placa
                         </label>
-
-                        <select class="form-select rounded-3">
-
-                            <option selected disabled>
-                                Selecione a placa
-                            </option>
-
-                            <option>
-                                TKO2H43
-                            </option>
-
-                            <option>
-                                ABC1D23
-                            </option>
-
-                            <option>
-                                XYZ9K88
-                            </option>
+                        <input 
+                            type="text"
+                            id="inputDespesasFixasPlaca"
+                            class="form-control rounded-4"
+                            placeholder="ABC1D23"
+                            autocomplete="off"
+                        >
+                        <ul 
+                            id="listaDespesasFixasPlacas"
+                            class="list-group shadow position-absolute z-3 w-100"
+                            style="display:none; max-height:200px; overflow-y:auto;"
+                        >
+                        </ul>
 
                         </select>
 
@@ -479,6 +463,7 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="Digite a despesa"
+                            id="inputModalDespesasFixasDespesa"
                         >
 
                     </div>
@@ -494,6 +479,7 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="R$ 0,00"
+                            id="modalInputDespesasFixasValor"
                         >
 
                     </div>
@@ -516,75 +502,9 @@
                 <button 
                     type="button"
                     class="btn btn-success rounded-3"
+                    id="btModalSalvarDespesasFixas"
                 >
                     Salvar Despesa
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
-<div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-
-        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-
-            <!-- HEADER -->
-            <div class="modal-header bg-danger text-white border-0">
-
-                <h5 class="modal-title fw-bold">
-                    Confirmar Exclusão
-                </h5>
-
-                <button 
-                    type="button" 
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                ></button>
-
-            </div>
-
-            <!-- BODY -->
-            <div class="modal-body text-center py-4">
-
-                <div class="mb-3">
-
-                    <i class="bi bi-trash-fill text-danger" style="font-size: 60px;"></i>
-
-                </div>
-
-                <h6 class="fw-bold mb-2">
-                    Deseja realmente excluir?
-                </h6>
-
-                <p class="text-muted small mb-0">
-                    Esta ação não poderá ser desfeita.
-                </p>
-
-            </div>
-
-            <!-- FOOTER -->
-            <div class="modal-footer border-0 justify-content-center pb-4">
-
-                <button 
-                    type="button"
-                    class="btn btn-light border rounded-3 px-4"
-                    data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </button>
-
-                <button 
-                    type="button"
-                    class="btn btn-danger rounded-3 px-4"
-                >
-                    Excluir
                 </button>
 
             </div>

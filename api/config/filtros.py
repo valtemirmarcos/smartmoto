@@ -9,6 +9,7 @@ from models.Multa import Multa
 from models.Faturamento import Faturamento
 from models.Oficina import Oficina
 from models.Anexo import Anexo
+from models.DespesaFixa import DespesaFixa
 
 from config.funcoes import apenasNumeros
 
@@ -258,5 +259,14 @@ def filtros_basicos_anexos(query, filtro):
 
 
     # query = query.filter(Semanal.deleted_at == None)
+
+    return query
+
+def filtros_basicos_despesas_fixas(query, filtro):
+    if filtro.get('id') is not None:
+        query = query.filter(DespesaFixa.id == filtro['id'])
+
+    if filtro.get('frota') is not None:
+        query = query.filter(DespesaFixa.frota_id == filtro['frota'])
 
     return query

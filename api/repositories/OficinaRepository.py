@@ -147,6 +147,9 @@ class OficinaRepository:
                 .filter(
                     Oficina.deleted_at.is_(None)
                 )
+                .filter(
+                    Locatario.status_id == 1
+                )
             )
 
             query = filtros_basicos_oficina(query, filtro)
