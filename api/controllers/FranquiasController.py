@@ -7,9 +7,9 @@ class FranquiasController:
     def __init__(self, db):
         self.repository = FranquiasRepository(db)
 
-    def create_franquias(self, data):
+    def create_franquias(self, data, dados_token):
         try:
-            return success_response(self.repository.create_franquias(data))
+            return success_response(self.repository.create_franquias(data, dados_token))
         except ValueError as e:
             return exception_response(str(e), 404)
         except Exception as error:

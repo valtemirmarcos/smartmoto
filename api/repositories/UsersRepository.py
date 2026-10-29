@@ -5,13 +5,16 @@ from models.Franquia import Franquia
 from models.Franqueado import Franqueado
 from models.Locatario import Locatario
 from models.Frota import Frota
+from models.Codigo import Codigo
 from models.FranquiaFraqueadoLocatario import FranquiaFraqueadoLocatario
 from config.funcoes import remove_campos, apenasNumeros, verify_password, create_access_token, ler_token
-from sqlalchemy import func
+from sqlalchemy import func, and_
 import os
 from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
+from config.filtros import filtros_basicos_usuario
+
 
 from repositories.FrotasRepository import FrotasRepository
 from repositories.CalcoesRepository import CalcoesRepository
@@ -34,10 +37,14 @@ class UsersRepository:
     def db_info(self):
         return {"database_url": os.getenv("DATABASE_URL")}
 
-    def create_user(self, data, dados_token):
+    def create_user(self, data, dados_token=None):
         try:
             njson = {}
-            data['log_id'] = dados_token['dados']['id']
+            if dados_token:
+                data['log_id'] = dados_token['dados']['id']
+            else:
+                data['log_id'] = 1
+            
             password = data["password"]
             hashed_password = pwd_context.hash(password)
             user_data = {
@@ -88,6 +95,22 @@ class UsersRepository:
                 data["user_id"] = user.id
                 njson = self.locatarios(data)
 
+            elif user.tipoAcessoID == 4:
+                json = {
+                    'user_id':user.id,
+                    'franquia_id': franquia.id,
+                    'franquiado_id':None,
+                    'locatarios_id':None,
+                    "log_id": data['log_id']
+                }
+            elif user.tipoAcessoID == 5:
+                json = {
+                    'user_id':user.id,
+                    'franquia_id': franquia.id,
+                    'franquiado_id':None,
+                    'locatarios_id':None,
+                    "log_id": data['log_id']
+                }
             else:
                 raise ValueError("tipoAcessoID inválido")
 
@@ -203,6 +226,23 @@ class UsersRepository:
             self.db.rollback()
             raise e
 
+    def delete_users(self, user_id, dados_token):
+        try:
+            user = self.db.query(User).filter(
+                User.id == user_id
+            ).first()
+            if not user:
+                raise ValueError("Usuario não encontrado")
+
+            self.db.delete(user)
+            self.db.commit()
+
+            return {"message": "Usuario removido com sucesso"}
+
+        except Exception as e:
+            self.db.rollback()
+            raise e
+        
     def sfdelete_users(self, user_id, ativa, dados_token):
         try:
             log_id = dados_token['dados']['id']
@@ -248,6 +288,7 @@ class UsersRepository:
 
                 elif ativa == 1:
                     locatario.deleted_at = None
+
                 locatario.status_id=ativa
                 locatario.log_id = log_id
 
@@ -324,7 +365,8 @@ class UsersRepository:
                 raise ValueError("usuario não encontrada")
 
             password = data.get("password")
-            campos_para_remover = ["email", "tipoAcessoID"]
+            status = data.get("status")
+            campos_para_remover = ["email"]
             dados_user = remove_campos(data, campos_para_remover)
 
             if password:
@@ -332,13 +374,19 @@ class UsersRepository:
                 user.password = hashed_password
                 dados_user['password'] = hashed_password
             dados_user['log_id'] = log_id
+            if status == 1:
+                dados_user['deleted_at'] = None
+            else:
+                dados_user['deleted_at'] = func.now()
+
             for campo, valor in dados_user.items():
                 setattr(user, campo, valor)
 
             tipo = request.query_params.get("tipo")
-            self.update_franquia(user_id, data, tipo, log_id)
-            self.update_franquiados(user_id, data, tipo, log_id)
-            self.update_locatarios(user_id, data, tipo, log_id)
+            if tipo:
+                self.update_franquia(user_id, data, tipo, log_id)
+                self.update_franquiados(user_id, data, tipo, log_id)
+                self.update_locatarios(user_id, data, tipo, log_id)
 
 
             self.db.commit()
@@ -441,3 +489,36 @@ class UsersRepository:
 
             self.db.commit()
             self.db.refresh(franquia)
+
+
+    def listar_users(self, dados_token, filtro):
+        try:
+            dados = dados_token['dados']
+
+            query = (
+                self.db.query(
+                    User,
+                    Codigo.descricao.label('descricao')
+                )
+                .outerjoin(
+                    Codigo,
+                    and_(
+                        Codigo.depara_id == 10,
+                        Codigo.codigo == User.tipoAcessoID
+                    )
+                )
+            )
+
+            query = filtros_basicos_usuario(query, filtro)
+            listarUsuarios = query.all()
+            saida = []
+            for usuario, descricao in listarUsuarios:
+                item = {**usuario.__dict__}
+                item['setor'] = descricao if descricao else None
+                saida.append(item)
+
+            return saida
+
+        except Exception as e:
+            self.db.rollback()
+            raise e

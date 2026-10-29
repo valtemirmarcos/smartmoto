@@ -1,4 +1,4 @@
-async function carregarFranqueados(selectId = null, opcaoTodos = true) {
+async function carregarFranqueados(selectId = null, opcaoTodos = true, user = false) {
 
     const select = selectId 
         ? document.getElementById(selectId)
@@ -8,14 +8,24 @@ async function carregarFranqueados(selectId = null, opcaoTodos = true) {
 
     try {
 
-        const response    = await api.get("/api/franquiado/listar");
-        const franqueados = response.data.resultado;
+        let response;
+        let franqueados;
 
-        if (franqueados.length === 1) {
-            select.innerHTML = `<option value="${franqueados[0].id}">${franqueados[0].nome}</option>`;
-            select.disabled  = true;
-            return;
+        if (user === true) {
+            response = await api.get("/api/franquiado/listar?user=1");
+            franqueados = response.data.resultado;
+
+        } else {
+            response = await api.get("/api/franquiado/listar");
+            franqueados = response.data.resultado;
+
+            if (franqueados.length === 1) {
+                select.innerHTML = `<option value="${franqueados[0].id}">${franqueados[0].nome}</option>`;
+                select.disabled  = true;
+                return;
+            }
         }
+
 
         select.disabled  = false;
         select.innerHTML = opcaoTodos
@@ -657,4 +667,137 @@ function botoesExcelPdf(titulo = 'Relatório') {
         }
 
     ];
+}
+function formatarCNPJ(cnpj) {
+    if (!cnpj) {
+        return '-';
+    }
+
+    cnpj = String(cnpj).replace(/\D/g, '');
+
+    if (cnpj.length !== 14) {
+        return cnpj;
+    }
+
+    return cnpj.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+        '$1.$2.$3/$4-$5'
+    );
+}
+function formatarCPF(cpf) {
+    if (!cpf) {
+        return '-';
+    }
+
+    cpf = String(cpf).replace(/\D/g, '');
+
+    if (cpf.length !== 11) {
+        return cpf;
+    }
+
+    return cpf.replace(
+        /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+        '$1.$2.$3-$4'
+    );
+}
+function formatarCEP(cep) {
+    if (!cep) {
+        return '-';
+    }
+
+    cep = String(cep).replace(/\D/g, '');
+
+    if (cep.length !== 8) {
+        return cep;
+    }
+
+    return cep.replace(
+        /^(\d{5})(\d{3})$/,
+        '$1-$2'
+    );
+}
+function mascaraCPF(input) {
+
+    const novoInput = input.cloneNode(true);
+    input.parentNode.replaceChild(novoInput, input);
+
+    novoInput.addEventListener("input", function () {
+
+        let valor = this.value.replace(/\D/g, '');
+
+        valor = valor.substring(0, 11);
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d{1,2})$/,
+            '$1-$2'
+        );
+
+        this.value = valor;
+    });
+
+    return novoInput;
+}
+
+function mascaraCNPJ(input) {
+
+    const novoInput = input.cloneNode(true);
+    input.parentNode.replaceChild(novoInput, input);
+
+    novoInput.addEventListener("input", function () {
+
+        let valor = this.value.replace(/\D/g, '');
+
+        valor = valor.substring(0, 14);
+
+        valor = valor.replace(
+            /(\d{2})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1/$2'
+        );
+
+        valor = valor.replace(
+            /(\d{4})(\d{1,2})$/,
+            '$1-$2'
+        );
+
+        this.value = valor;
+    });
+
+    return novoInput;
+}
+function mascaraCEP(input) { 
+    const newInput = input.cloneNode(true); 
+    input.parentNode.replaceChild(newInput, input); 
+    novoInput.addEventListener("input", function () { 
+        let valor = this.value.replace(/\D/g, ''); // Limita a 8 números 
+        valor = valor.substring(0, 8); // Aplica a máscara 00000-000 
+        valor = valor.replace( /(\d{5})(\d)/, '$1-$2' ); this.value = valor; 
+    }); 
+    return novoInput; 
+}
+function removerCaracteresEspeciais(texto) {
+    if (!texto) {
+        return '';
+    }
+
+    return String(texto).replace(/[^a-zA-Z0-9]/g, '');
 }

@@ -42,3 +42,11 @@ class CodigosController:
             return exception_response(str(e), 404)
         except Exception as error:
             return exception_response(str(error), 500)
+
+    def listar_codigos(self, dados_token, filtros):
+        try:
+            return success_response(self.repository.listar_codigos(dados_token, filtros), "Codigos listados com sucesso")
+        except ValueError as e:
+            return exception_response(str(e), 404)
+        except Exception as error:
+            return exception_response(str(error), 500)

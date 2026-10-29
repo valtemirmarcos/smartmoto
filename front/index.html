@@ -58,54 +58,8 @@
 
         <!-- MENU LATERAL -->
         <nav class="col-md-2 sidebar p-0 collapse d-md-block" id="sidebarMenu">
-          <div class="username">João Silva</div>
-          <ul class="nav flex-column m-0 p-0">
-            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('dashboard')">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('frota')">Frota</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('locatario')"">Locatários</a></li>
-
-            <!-- Financeiro submenu -->
-            <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="collapse" href="#financeiroSubmenu" role="button" aria-expanded="false" aria-controls="financeiroSubmenu">
-                Financeiro <i class="bi bi-chevron-down"></i>
-              </a>
-              <div class="collapse submenu" id="financeiroSubmenu">
-                <div class="collapse-inner">
-                  <a href="#" onclick="carregarPagina('calcao')"">Calções</a>
-                  <a href="#" onclick="carregarPagina('semanal')"">Semanais</a>
-                  <a href="#" onclick="carregarPagina('multa')"">Multas</a>
-                  <!-- <a href="#" onclick="carregarPagina('cobranca')"">Cobranças</a> -->
-                  <a href="#" onclick="carregarPagina('faturamento')"">Faturamentos</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="carregarPagina('oficina')"">Oficina</a></li>
-            <!-- Relatórios submenu -->
-            <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="collapse" href="#relatoriosSubmenu" role="button" aria-expanded="false" aria-controls="relatoriosSubmenu">
-                Relatórios <i class="bi bi-chevron-down"></i>
-              </a>
-              <div class="collapse submenu" id="relatoriosSubmenu">
-                <div class="collapse-inner">
-                  <a href="#" onclick="carregarPagina('rel_custos')"">Custos</a>
-                  <a href="#" onclick="carregarPagina('rel_lucros')"">Lucro</a>
-                  <a href="#" onclick="carregarPagina('rel_custo_moto')"">Custo por Moto</a>
-                  <a href="#" onclick="carregarPagina('rel_lucro_moto')"">Lucro por Moto</a>
-                </div>
-              </div>
-            </li>
-            <!-- Configuracoes -->
-            <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="collapse" href="#configuracoesSubmenu" role="button" aria-expanded="false" aria-controls="relatoriosSubmenu">
-                Configurações <i class="bi bi-chevron-down"></i>
-              </a>
-              <div class="collapse submenu" id="configuracoesSubmenu">
-                <div class="collapse-inner">
-                  <a href="#" onclick="carregarPagina('despesa_fixa')"">Despesas Recorrentes</a>
-                </div>
-              </div>
-            </li>
-          </ul>
+          <div class="username" id="usuario-logado">Carregando...</div>
+          <div id="menu-principal"></div>
         </nav>
 
         <!-- CONTEÚDO PRINCIPAL -->
@@ -313,6 +267,11 @@
     <script src="./js/modules/rel_lucros.js"></script>
     <script src="./js/modules/rel_custo_moto.js"></script>
     <script src="./js/modules/rel_lucro_moto.js"></script>
+    <script src="./js/modules/codigo.js"></script>
+    <script src="./js/modules/plano.js"></script>
+    <script src="./js/modules/franqueado.js"></script>
+    <script src="./js/modules/usuario.js"></script>
+    
     <script src="./js/core/app.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
@@ -325,8 +284,18 @@
 
     <!-- INICIAR ÚLTIMA PÁGINA -->
     <script>
+      window.dadosUsuarioLogado = null;
       document.addEventListener("DOMContentLoaded", function () {
-  
+        const dadosUsuarioLogado = JSON.parse(localStorage.getItem("usuariologado"));
+        window.dadosUsuarioLogado = dadosUsuarioLogado;
+        console.log(dadosUsuarioLogado.nome);
+        document.getElementById("usuario-logado").textContent = dadosUsuarioLogado.nome;
+        if(dadosUsuarioLogado.tipoAcessoID == 1){
+          mostrarMenuFranquia();
+        }
+        if(dadosUsuarioLogado.tipoAcessoID == 2){
+          mostrarMenuFranqueado();
+        }
           // pega última página salva
           let pagina = localStorage.getItem("paginaAtual");
   
@@ -336,6 +305,7 @@
           }
   
           carregarPagina(pagina);
+
   
       });
       </script>

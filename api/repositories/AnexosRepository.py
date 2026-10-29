@@ -30,7 +30,6 @@ class AnexosRepository:
 
 
     def create_anexos(self, data, dados_token):
-        
         campos_obrigatorios = [
             "entidade_tipo",
             "entidade_id"

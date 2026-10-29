@@ -5,10 +5,10 @@ from sqlalchemy import func
 from models.Codigo import Codigo
 
 from config.funcoes import remove_campos, apenasNumeros, valida_placa, validar_campos_obrigatorios
-
 import os
 import re
 
+from config.filtros import filtros_basicos_codigos
 
 class CodigosRepository:
     def __init__(self, db: Session):
@@ -17,13 +17,18 @@ class CodigosRepository:
 
     def create_codigos(self, data, dados_token):
         campos_obrigatorios = [
-            "codigo",
             "depara_id",
             "descricao",
             "obs"
         ]
         saida = validar_campos_obrigatorios(campos_obrigatorios, data)
         data['log_id'] = dados_token['dados']['id']
+        proximo_codigo = self.db.query(
+            (func.coalesce(func.max(Codigo.codigo), 0) + 1).label("id")
+        ).filter(
+            Codigo.depara_id == data['depara_id']
+        ).scalar()
+        data['codigo'] = proximo_codigo
         dados_codigos = data
         try:
 
@@ -93,12 +98,31 @@ class CodigosRepository:
             elif ativa == 1:
                 codigo.deleted_at = None
 
+            codigo.log_id = dados_token['dados']['id']
+
 
             self.db.commit()
             self.db.refresh(codigo)
 
             return codigo
 
+        except Exception as e:
+            self.db.rollback()
+            raise e
+
+    def listar_codigos(self, dados_token, filtro):
+        try:
+            dados = dados_token['dados']
+            query = (
+                self.db.query(Codigo)
+                .filter(
+                    Codigo.deleted_at.is_(None)
+                )
+            )
+            query = filtros_basicos_codigos(query, filtro)
+            query = query.order_by(Codigo.codigo)
+            listarCodigo = query.all()
+            return listarCodigo
         except Exception as e:
             self.db.rollback()
             raise e

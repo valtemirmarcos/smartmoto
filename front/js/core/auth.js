@@ -34,9 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
             */
 
             const token = response.data.resultado.access_token;
+            const usuarioLogado = response.data.resultado.user;
 
             localStorage.setItem("token", token);
-
+            localStorage.setItem("usuariologado", JSON.stringify(usuarioLogado));
+            
             window.location.href = "/index";
 
         } catch (err) {

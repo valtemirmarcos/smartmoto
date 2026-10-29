@@ -1,0 +1,569 @@
+<!-- TOPO -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <!-- TÍTULO -->
+    <div>
+        <h3 class="fw-bold mb-0">
+            Usuários
+        </h3>
+
+        <small class="text-muted">
+            Gerencie os usuários do sistema
+        </small>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
+        id="modalNovoUsuario">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Novo Usuario
+
+        </button>
+
+        <!-- FILTRO -->
+        <button 
+            class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
+            data-bs-toggle="modal"
+            id="modalFitrarUsuario"
+        >
+
+            <i class="bi bi-funnel-fill me-1"></i>
+
+            Filtros
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL FILTRO Usuario -->
+<div 
+    class="modal fade" 
+    id="modalFiltroUsuario"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content border-0 rounded-5 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0 py-4 px-4">
+        
+                <div>
+        
+                    <h4 class="modal-title fw-bold mb-0">
+                        Filtros de Usuarios
+                    </h4>
+        
+                    <small class="opacity-75">
+                        Utilize os filtros para localizar Usuarios
+                    </small>
+        
+                </div>
+        
+                <!-- FECHAR -->
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white shadow-none"
+                    data-bs-dismiss="modal"
+                ></button>
+        
+            </div>
+        
+            <!-- BODY -->
+            <div class="modal-body p-4">
+        
+                <div class="d-flex flex-column gap-4">
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Nome
+                        </label>
+                    
+                        <input 
+                            type="text"
+                            id="inputFiltroUsuarioNome"
+                            class="form-control rounded-4"
+                            placeholder="digite o Nome"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            E-mail
+                        </label>
+                    
+                        <input 
+                            type="text"
+                            id="inputFiltroUsuarioEmail"
+                            class="form-control rounded-4"
+                            placeholder="digite o E-mail"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                    <div>
+                        <label class="form-label fw-semibold">
+                            Setor
+                        </label>
+                        <select id="selectFiltroUsuarioSetor" class="form-select rounded-4">
+                            <option value="">Todos</option>
+                        </select>
+                    </div> 
+                    <div>
+                        <label class="form-label fw-semibold">
+                            Status
+                        </label>
+                        <select id="selectFiltroUsuarioStatus" class="form-select rounded-4">
+                            <option value="">Todos</option>
+                            <option value="1">Ativo</option>
+                            <option value="2">Inativo</option>
+                        </select>
+                    </div> 
+                </div>
+        
+            </div>
+        
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 px-4 pb-4">
+        
+                <!-- CANCELAR -->
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-4 px-4 py-2"
+                    id="btModalRemoverFiltroUsuario"
+                >
+        
+                    <i class="bi bi-x-circle me-1"></i>
+        
+                    Cancelar
+        
+                </button>
+        
+                <!-- FILTRAR -->
+                <button 
+                    type="button"
+                    class="btn btn-dark rounded-4 px-4 py-2"
+                    id="btModalFiltrarUsuario"
+                >
+        
+                    <i class="bi bi-search me-1"></i>
+        
+                    Filtrar
+        
+                </button>
+        
+            </div>
+        
+        </div>
+
+    </div>
+
+</div>
+
+<!-- conteudo -->
+<div class="container-fluid py-4">
+
+    <div class="row g-4">
+
+        <!-- DATATABLE -->
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card rounded-4 shadow-sm border-0 p-3">
+
+                    <!-- TÍTULO -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                        <h5 class="card-title mb-0 fw-bold">
+                            Lista de Usuarios
+                        </h5>
+
+                    </div>
+
+                    <!-- TABELA -->
+                    <div class="table-responsive">
+
+                        <table id="UsuarioTableLista" class="table table-striped align-middle w-100">
+
+                            <thead class="table-dark">
+
+                                <tr>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Usuário
+                                    </th>
+                                    <th>
+                                        E-mail
+                                    </th>
+                                    <th>
+                                        Tipo
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Valtemir Marcos Pereira
+                                    </td>
+                                    <td>
+                                        valtemirmarcos@gmail.com
+                                    </td>
+
+                                    <td>
+                                        Franqueado
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-success text-white">
+                                            Ativo
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarUsuario" data-bs-toggle="modal"
+                                            >
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirUsuario"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Valtemir Marcos Pereira
+                                    </td>
+                                    <td>
+                                        valtemirmarcos@gmail.com
+                                    </td>
+
+                                    <td>
+                                        Franqueado
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-success text-white">
+                                            Ativo
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarUsuario" data-bs-toggle="modal"
+                                            >
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirUsuario"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL USUÁRIO -->
+<div
+    class="modal fade"
+    id="modalUsuario"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="modalUsuarioLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="modalUsuarioLabel">
+                    Cadastrar Usuário
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar">
+                </button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+                <form id="frmModalUsuario">
+            
+                    <!-- PERMISSÕES E SITUAÇÃO — INÍCIO -->
+                    <h6 class="fw-bold mb-3">
+                        <i class="fa-solid fa-building me-2"></i>
+                        Permissões e Situação
+                    </h6>
+            
+                    <div class="row">
+            
+                        <!-- SETOR -->
+                        <div class="col-md-6 mb-3">
+                            <label
+                                for="selectModalUsuarioSetor"
+                                class="form-label fw-bold">
+                                Setor
+                            </label>
+            
+                            <select
+                                id="selectModalUsuarioSetor"
+                                name="setor"
+                                class="form-select rounded-3"
+                                required>
+                            </select>
+                        </div>
+            
+                        <!-- STATUS -->
+                        <div class="col-md-6 mb-3">
+                            <label
+                                for="selectModalUsuarioStatus"
+                                class="form-label fw-bold">
+                                Status
+                            </label>
+            
+                            <select
+                                id="selectModalUsuarioStatus"
+                                name="status"
+                                class="form-select rounded-3"
+                                required>
+            
+                                <option value="1" selected>Ativo</option>
+                                <option value="2">Inativo</option>
+            
+                            </select>
+                        </div>
+            
+                    </div>
+            
+                    <!-- FRANQUEADO: OCULTO INICIALMENTE -->
+                    <div class="row" id="rowModalUsuarioFranqueado" style="display: none;">
+            
+                        <div class="col-12 mb-4">
+                            <label
+                                for="selectModalUsuarioFranqueado"
+                                class="form-label fw-bold">
+                                Franqueado
+                            </label>
+            
+                            <select
+                                id="selectModalUsuarioFranqueado"
+                                name="franqueado"
+                                class="form-select rounded-3">
+                            </select>
+                        </div>
+            
+                    </div>
+            
+                    <hr class="my-3">
+            
+                    <!-- DADOS DO USUÁRIO -->
+                    <h6 class="fw-bold mb-3">
+                        <i class="fa-solid fa-user me-2"></i>
+                        Dados do Usuário
+                    </h6>
+            
+                    <div class="row">
+            
+                        <!-- NOME -->
+                        <div class="col-md-7 mb-3">
+                            <label
+                                for="inputModalUsuarioNome"
+                                class="form-label fw-bold">
+                                Nome
+                            </label>
+            
+                            <input
+                                type="text"
+                                id="inputModalUsuarioNome"
+                                name="nome"
+                                class="form-control rounded-3"
+                                placeholder="Nome completo"
+                                autocomplete="name"
+                                required>
+                        </div>
+            
+                        <!-- E-MAIL -->
+                        <div class="col-md-5 mb-3">
+                            <label
+                                for="inputModalUsuarioEmail"
+                                class="form-label fw-bold">
+                                E-mail
+                            </label>
+            
+                            <input
+                                type="email"
+                                id="inputModalUsuarioEmail"
+                                name="email"
+                                class="form-control rounded-3"
+                                placeholder="usuario@empresa.com"
+                                autocomplete="email"
+                                required>
+                        </div>
+            
+                    </div>
+            
+                    <!-- DADOS DE ACESSO -->
+                    <h6 class="fw-bold mb-3 mt-2">
+                        <i class="fa-solid fa-lock me-2"></i>
+                        Dados de Acesso
+                    </h6>
+            
+                    <div class="row">
+            
+                        <!-- SENHA -->
+                        <div class="col-md-6 mb-3">
+                            <label
+                                for="inputModalUsuarioSenha"
+                                class="form-label fw-bold">
+                                Senha
+                            </label>
+            
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    id="inputModalUsuarioSenha"
+                                    name="senha"
+                                    class="form-control rounded-start-3"
+                                    placeholder="Digite a senha"
+                                    autocomplete="new-password"
+                                    required>
+            
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary rounded-end-3"
+                                    data-toggle-senha="inputModalUsuarioSenha"
+                                    aria-label="Mostrar senha"
+                                    title="Mostrar senha">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+            
+                        <!-- CONFIRMAR SENHA -->
+                        <div class="col-md-6 mb-3">
+                            <label
+                                for="inputModalUsuarioConfirmarSenha"
+                                class="form-label fw-bold">
+                                Confirmar senha
+                            </label>
+            
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    id="inputModalUsuarioConfirmarSenha"
+                                    name="confirmar_senha"
+                                    class="form-control rounded-start-3"
+                                    placeholder="Repita a senha"
+                                    autocomplete="new-password"
+                                    required>
+            
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary rounded-end-3"
+                                    data-toggle-senha="inputModalUsuarioConfirmarSenha"
+                                    aria-label="Mostrar senha"
+                                    title="Mostrar senha">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+            
+                            <div
+                                id="feedbackModalUsuarioSenha"
+                                class="invalid-feedback">
+                                As senhas não conferem.
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                </form>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark me-1"></i>
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    form="frmModalUsuario"
+                    class="btn btn-success rounded-3"
+                    id="btModalSalvarUsuario">
+                    <i class="fa-solid fa-floppy-disk me-1"></i>
+                    Salvar Usuário
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

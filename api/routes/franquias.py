@@ -1,16 +1,16 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from controllers.FranquiasController import FranquiasController
 from config.database import get_db
-from config.dependencies import usuario_logado
+from config.dependencies import usuario_logado, usuario_logado_opcional
 
 router = APIRouter()
 
 
 @router.post("/create")
-def create(data: dict, dados_token = Depends(usuario_logado), db: Session = Depends(get_db)):
+def create(data: dict, dados_token = Depends(usuario_logado_opcional), db: Session = Depends(get_db)):
     controller = FranquiasController(db)
-    return controller.create_franquias(data)
+    return controller.create_franquias(data, dados_token)
 
 @router.put("/update/{franquia_id}")
 def update(franquia_id: int, data: dict, dados_token = Depends(usuario_logado), db: Session = Depends(get_db)):
@@ -26,3 +26,5 @@ def delete(franquia_id: int, dados_token = Depends(usuario_logado), db: Session 
 def sfdelete(franquia_id: int, ativa: int, dados_token = Depends(usuario_logado), db: Session = Depends(get_db)):
     controller = FranquiasController(db)
     return controller.sfdelete_franquias(franquia_id, ativa)
+
+

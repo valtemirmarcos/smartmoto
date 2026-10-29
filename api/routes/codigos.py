@@ -26,3 +26,23 @@ def delete(codigo_id: int, dados_token = Depends(usuario_logado), db: Session = 
 def sfdelete(codigo_id: int, ativa: int, dados_token = Depends(usuario_logado), db: Session = Depends(get_db)):
     controller = CodigosController(db)
     return controller.sfdelete_codigos(codigo_id, ativa, dados_token)
+
+@router.get("/listar")
+def listar(
+        dados_token = Depends(usuario_logado), 
+        id: int = None,
+        codigo: int = None,
+        sequencia: int = None,
+        descricao: str = None,
+        categoria: str = None,
+        db: Session = Depends(get_db)
+    ):
+    filtros_url = {
+        "id": id,
+        "codigo": codigo,
+        "sequencia": sequencia,
+        "descricao": descricao,
+        "categoria":categoria
+    }
+    controller = CodigosController(db)
+    return controller.listar_codigos(dados_token, filtros_url)
