@@ -13,7 +13,7 @@ class FranquiasRepository:
 
 
 
-    def create_franquias(self, data):
+    def create_franquias(self, data, dados_token=None):
         cnpj = data["cnpj"]
         cnplimpo = re.sub(r"\D", "", cnpj)
         dados_franquia = {
@@ -21,6 +21,11 @@ class FranquiasRepository:
             "cnpj": cnplimpo,
             "status_id": data["status"]
         }
+        if dados_token:
+            dados_franquia['log_id'] = dados_token['dados']['id']
+        else:
+            dados_franquia['log_id'] = 1
+            
         try:
             franquia = Franquia(**dados_franquia)
             self.db.add(franquia)

@@ -1,0 +1,482 @@
+<!-- TOPO -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <!-- TÍTULO -->
+    <div>
+        <h3 class="fw-bold mb-0">
+            Códigos
+        </h3>
+
+        <small class="text-muted">
+            Gerencie os codigos do sistemas
+        </small>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
+        id="modalNovoCodigo">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Novo Código
+
+        </button>
+
+        <!-- FILTRO -->
+        <button 
+            class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
+            data-bs-toggle="modal"
+            id="modalFitrarCodigo"
+        >
+
+            <i class="bi bi-funnel-fill me-1"></i>
+
+            Filtros
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL FILTRO Codigo -->
+<div 
+    class="modal fade" 
+    id="modalFiltroCodigo"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content border-0 rounded-5 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0 py-4 px-4">
+        
+                <div>
+        
+                    <h4 class="modal-title fw-bold mb-0">
+                        Filtros de Codigos
+                    </h4>
+        
+                    <small class="opacity-75">
+                        Utilize os filtros para localizar códigos
+                    </small>
+        
+                </div>
+        
+                <!-- FECHAR -->
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white shadow-none"
+                    data-bs-dismiss="modal"
+                ></button>
+        
+            </div>
+        
+            <!-- BODY -->
+            <div class="modal-body p-4">
+        
+                <div class="d-flex flex-column gap-4">
+                    <!-- codigo -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Id Categoria
+                        </label>
+                    
+                        <input 
+                            type="number"
+                            id="inputFiltroIdCategoria"
+                            class="form-control rounded-4"
+                            placeholder="1"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Sequência
+                        </label>
+                    
+                        <input 
+                            type="number"
+                            id="inputFiltroSequencia"
+                            class="form-control rounded-4"
+                            placeholder="1"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Informação
+                        </label>
+                    
+                        <input 
+                            type="text"
+                            id="inputFiltroInformacao"
+                            class="form-control rounded-4"
+                            placeholder="Ativo"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Categoria
+                        </label>
+                    
+                        <input 
+                            type="text"
+                            id="inputFiltroCategoria"
+                            class="form-control rounded-4"
+                            placeholder="status frota"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                </div>
+        
+            </div>
+        
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 px-4 pb-4">
+        
+                <!-- CANCELAR -->
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                >
+        
+                    <i class="bi bi-x-circle me-1"></i>
+        
+                    Cancelar
+        
+                </button>
+        
+                <!-- FILTRAR -->
+                <button 
+                    type="button"
+                    class="btn btn-dark rounded-4 px-4 py-2"
+                    id="btModalFiltrarCodigo"
+                >
+        
+                    <i class="bi bi-search me-1"></i>
+        
+                    Filtrar
+        
+                </button>
+        
+            </div>
+        
+        </div>
+
+    </div>
+
+</div>
+
+<!-- conteudo -->
+<div class="container-fluid py-4">
+
+    <div class="row g-4">
+
+        <!-- DATATABLE -->
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card rounded-4 shadow-sm border-0 p-3">
+
+                    <!-- TÍTULO -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                        <h5 class="card-title mb-0 fw-bold">
+                            Lista de Códigos
+                        </h5>
+
+                    </div>
+
+                    <!-- TABELA -->
+                    <div class="table-responsive">
+
+                        <table id="codigoTableLista" class="table table-striped align-middle">
+
+                            <thead class="table-dark">
+
+                                <tr>
+                                    <th>
+                                        Id Categoria
+                                    </th>
+                                    <th>
+                                        Sequêncial
+                                    </th>
+                                    <th>
+                                        Informação
+                                    </th>
+                                    <th>
+                                        Categoria
+                                    </th>
+                                    <th>
+                                        Info. Adicional
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Invativo
+                                    </td>
+                                    <td>
+                                        AtivoInativo
+                                    </td>
+
+                                    <td>
+                                        danger
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarCodigo" data-bs-toggle="modal"
+                                            >
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirCodigo"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Ativo
+                                    </td>
+                                    <td>
+                                        AtivoInativo
+                                    </td>
+
+                                    <td>
+                                        Danger
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarCodigo" data-bs-toggle="modal"
+                                            >
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirCodigo"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL Codigo -->
+<div 
+    class="modal fade" 
+    id="modalCodigo" 
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+
+                <h5 class="modal-title">
+                    Cadastrar Códigos
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form id="frmModalCodigo">
+
+                    <!-- FRANQUIADO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Id Categoria
+                        </label>
+
+                        <select class="form-select rounded-3" id="selectModalCodigoIdCategoria">
+
+                            <option>
+                                Selecione a categoria
+                            </option>
+
+                            <option>
+                                1 - AtivoInativo
+                            </option>
+
+                            <option>
+                                2 - status frota
+                            </option>
+
+                            <option>
+                                3 - Semanais
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Sequêncial -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Sequêncial
+                        </label>
+                        <input 
+                            type="text"
+                            id="inputModalCodigoSequencia"
+                            class="form-control rounded-4"
+                            placeholder="1, 2, 3"
+                            autocomplete="off"
+                            readonly
+                        >
+                    </div>
+
+                    <!-- Informação -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Informação
+                        </label>
+                        <input 
+                            type="text"
+                            id="inputModalCodigoInformacao"
+                            class="form-control rounded-4"
+                            placeholder="ex: Ativo"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <!-- Categoria -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Categoria
+                        </label>
+                        <input 
+                            type="text"
+                            id="inputModalCodigoCategoria"
+                            class="form-control rounded-4"
+                            placeholder="ex: Pagamentos"
+                            autocomplete="off"
+                            readonly
+                        >
+                    </div>
+
+                    <!-- Adicional -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                           Info. Adicional
+                        </label>
+                        <input 
+                            type="text"
+                            id="inputModalCodigoAdicional"
+                            class="form-control rounded-4"
+                            placeholder="ex: Primary"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-success rounded-3"
+                    id="btModalSalvarCodigo"
+                >
+                    Salvar Código
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

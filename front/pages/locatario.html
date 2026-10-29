@@ -1108,7 +1108,17 @@
                             Dados
                         </button>
                     </li>
-
+                    <li class="nav-item">
+                        <button
+                            class="nav-link fw-semibold"
+                            data-bs-toggle="tab"
+                            data-bs-target="#tabLocatarioMultas"
+                            id="btnAbaLocatarioMultas"
+                        >
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            Multas
+                        </button>
+                    </li>
                     <li class="nav-item">
                         <button
                             class="nav-link fw-semibold"
@@ -1398,7 +1408,177 @@
                         </form>
 
                     </div>
+                    <!-- ABA MULTAS -->
+                    <div class="tab-pane fade" id="tabLocatarioMultas">
+                        <!-- TÍTULO -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
 
+                            <h5 class="card-title mb-0 fw-bold">
+                                Multas
+                            </h5>
+
+                            <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm btnInserirNovaMulta">
+
+                                <i class="bi bi-plus-circle me-1"></i>
+
+                                Nova Multa
+
+                            </button>
+
+                        </div>
+                        <!-- TABELA -->
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle table-striped" id="tabelaLocatarioMultas">
+                
+                                <thead class="table-dark">
+                
+                                    <tr>
+                                        <th>
+                                            Código
+                                        </th>
+                
+                                        <th>
+                                            Data Multa
+                                        </th>
+                                        <th>
+                                            Valor Multa
+                                        </th>
+                
+                                        <th>
+                                            Valor Pago
+                                        </th>
+                                        <th>
+                                            Pontos
+                                        </th>
+                
+                                        <th>
+                                            Status
+                                        </th>              
+                                        <th width="120"></th>
+                
+                                    </tr>
+                
+                                </thead>
+                
+                                <tbody>
+                
+                                    <!-- LINHA -->
+                                    <tr>               
+                                        <td>
+                                            745839
+                                        </td>
+                                        <td>
+                                            30/05/2026
+                                        </td>
+                
+                                        <td class="fw-bold text-danger">
+                                            R$ 195,23
+                                        </td>
+                
+                                        <td class="fw-bold text-success">
+                                            R$ 195,23
+                                        </td>
+                                        <td>
+                
+                                            <span class="badge bg-danger">
+                                                7
+                                            </span>
+                
+                                        </td>
+                
+                                        <td>
+                
+                                            <span class="badge bg-success">
+                                                Pago
+                                            </span>
+                
+                                        </td>
+                                        <td>
+                
+                                            <div class="d-flex gap-2 justify-content-center">
+                
+                                                <button 
+                                                    class="btn btn-sm btn-warning rounded-3 btnEditarLocatarioMulta">
+                
+                                                    <i class="bi bi-pencil-fill"></i>
+                
+                                                </button>
+                
+                                                <button 
+                                                    class="btn btn-sm btn-danger rounded-3 btnExcluirLocatarioMulta">
+                
+                                                    <i class="bi bi-trash-fill"></i>
+                
+                                                </button>
+                
+                                            </div>
+                
+                                        </td>
+                
+                                    </tr>
+                
+                                    <!-- LINHA -->
+                                    <tr>
+                                        <td>
+                                            982211
+                                        </td>           
+                                        <td>
+                                            25/05/2026
+                                        </td>
+                
+                                        <td class="fw-bold text-danger">
+                                            R$ 130,16
+                                        </td>
+                
+                                        <td>
+                                            -
+                                        </td>            
+                                        <td>
+                
+                                            <span class="badge bg-warning text-dark">
+                                                4
+                                            </span>
+                
+                                        </td>
+                
+                                        <td>
+                
+                                            <span class="badge bg-danger">
+                                                Atrasada
+                                            </span>
+                
+                                        </td>
+                                        <td>
+                
+                                            <div class="d-flex gap-2 justify-content-center">
+                
+                                                <button 
+                                                    class="btn btn-sm btn-warning rounded-3 btnEditarLocatarioMulta">
+                
+                                                    <i class="bi bi-pencil-fill"></i>
+                
+                                                </button>
+                
+                                                <button 
+                                                    class="btn btn-sm btn-danger rounded-3 btnExcluirLocatarioMulta">
+                
+                                                    <i class="bi bi-trash-fill"></i>
+                
+                                                </button>
+                
+                                            </div>
+                
+                                        </td>
+                
+                                    </tr>
+                
+                                </tbody>
+                
+                            </table>
+                
+                        </div>
+                    </div>
                     <!-- ABA DOCUMENTOS -->
                     <div class="tab-pane fade" id="tabLocatarioDocumentos">
 
@@ -1523,6 +1703,261 @@
                 >
                     <i class="bi bi-check-lg me-1"></i>
                     Salvar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL MULTA -->
+<div class="modal fade" id="modalLocatarioMulta" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+
+                <h5 class="modal-title">
+                    Cadastro de Multa
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form>
+
+                    <div class="row">
+
+                        <!-- PLACA -->
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Placa
+                            </label>
+                            <input 
+                                type="text"
+                                class="form-control rounded-3"
+                                id="inputLocatarioMultasPlaca"
+                                readonly
+                                disabled
+                            >
+
+                        </div>
+
+                        <!-- CÓDIGO -->
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Código
+                            </label>
+
+                            <input 
+                                type="text"
+                                class="form-control rounded-3"
+                                placeholder="Digite o código da multa"
+                                id="inputLocatarioMultasCodigo"
+                                style="text-transform: uppercase;"
+                            >
+
+                        </div>
+
+                        <!-- DATA MULTA -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Data da Multa
+                            </label>
+
+                            <input 
+                                type="date"
+                                class="form-control rounded-3"
+                                id="inputLocatarioMultasDataMulta"
+                            >
+
+                        </div>
+
+                        <!-- NOTIFICAÇÃO -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Data Notificação
+                            </label>
+
+                            <input 
+                                type="date"
+                                class="form-control rounded-3"
+                                id="inputLocatarioMultasDataNotificacao"
+                            >
+
+                        </div>
+
+                        <!-- NOTIFICAÇÃO -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Data Indicação
+                            </label>
+
+                            <input 
+                                type="date"
+                                class="form-control rounded-3"
+                                id="inputLocatarioMultasDataIndicacao"
+                            >
+
+                        </div>
+
+                        <!-- PAGAMENTO -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Data Pagamento
+                            </label>
+
+                            <input 
+                                type="date"
+                                class="form-control rounded-3"
+                                id="inputLocatarioMultasDataPagamento"
+                            >
+
+                        </div>
+
+                        <!-- VALOR MULTA -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Valor Multa
+                            </label>
+
+                            <input 
+                                type="text"
+                                class="form-control rounded-3"
+                                placeholder="R$ 0,00"
+                                id="inputLocatarioMultasValorMulta"
+                            >
+
+                        </div>
+
+                        <!-- VALOR PAGO -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Valor Pago
+                            </label>
+
+                            <input 
+                                type="text"
+                                class="form-control rounded-3"
+                                placeholder="R$ 0,00"
+                                id="inputLocatarioMultasValorPago"
+                            >
+
+                        </div>
+
+                        <!-- VALOR RECEBIDO -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Valor Recebido
+                            </label>
+
+                            <input 
+                                type="text"
+                                class="form-control rounded-3"
+                                placeholder="R$ 0,00"
+                                id="inputLocatarioMultasValorRecebido"
+                            >
+
+                        </div>
+
+                        <!-- PONTOS -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Pontos
+                            </label>
+
+                            <input 
+                                type="number"
+                                class="form-control rounded-3"
+                                placeholder="0"
+                                id="inputLocatarioMultasPontuacao"
+                            >
+
+                        </div>
+                        <!-- pagamentos -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Status
+                            </label>
+                            <select class="form-select rounded-3" id="selectLocatarioMultasPagamentos">
+                            </select>
+
+                        </div>
+                        <!-- STATUS -->
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label fw-bold">
+                                Status
+                            </label>
+                            <select class="form-select rounded-3" id="selectLocatarioMultasStatus">
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <!-- COMENTÁRIO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Comentário
+                        </label>
+
+                        <textarea 
+                            class="form-control rounded-3"
+                            rows="4"
+                            placeholder="Digite observações sobre a multa..."
+                            id="areaLocatarioMultasObs"
+                        ></textarea>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-success rounded-3"
+                    id="btLocatariosMultasSalvar"
+                >
+                    Salvar Multa
                 </button>
 
             </div>

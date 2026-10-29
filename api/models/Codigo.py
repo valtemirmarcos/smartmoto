@@ -9,4 +9,5 @@ class Codigo(BaseModel):
     codigo = Column(Integer, nullable=False)
     descricao = Column(String(200), nullable=False)
     obs = Column(String(200), nullable=True)
+    cor = Column(String(50), nullable=True)
     log_id = Column(Integer, nullable=False)

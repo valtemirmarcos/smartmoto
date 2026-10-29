@@ -86,3 +86,19 @@ class FiltrosController:
             return exception_response(str(e), 404)
         except Exception as error:
             return exception_response(str(error), 500)
+
+    def codigos_categorias(self):
+        try:
+            return success_response(self.repository.codigos_categorias(), "Filtro codigos categorias listado com sucesso!")
+        except ValueError as e:
+            return exception_response(str(e), 404)
+        except Exception as error:
+            return exception_response(str(error), 500)
+
+    def usuarios_acessos(self):
+        try:
+            return success_response(self.repository.usuarios_acessos(), "Filtro acessos listado com sucesso!")
+        except ValueError as e:
+            return exception_response(str(e), 404)
+        except Exception as error:
+            return exception_response(str(error), 500)

@@ -1,0 +1,425 @@
+<!-- TOPO -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <!-- TÍTULO -->
+    <div>
+        <h3 class="fw-bold mb-0">
+            Planos
+        </h3>
+
+        <small class="text-muted">
+            Gerencie os planos do sistema
+        </small>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
+        id="modalNovoPlano">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Novo Plano
+
+        </button>
+
+        <!-- FILTRO -->
+        <button 
+            class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
+            data-bs-toggle="modal"
+            id="modalFitrarPlano"
+        >
+
+            <i class="bi bi-funnel-fill me-1"></i>
+
+            Filtros
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL FILTRO Plano -->
+<div 
+    class="modal fade" 
+    id="modalFiltroPlano"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content border-0 rounded-5 shadow-lg overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white border-0 py-4 px-4">
+        
+                <div>
+        
+                    <h4 class="modal-title fw-bold mb-0">
+                        Filtros de Planos
+                    </h4>
+        
+                    <small class="opacity-75">
+                        Utilize os filtros para localizar Planos
+                    </small>
+        
+                </div>
+        
+                <!-- FECHAR -->
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white shadow-none"
+                    data-bs-dismiss="modal"
+                ></button>
+        
+            </div>
+        
+            <!-- BODY -->
+            <div class="modal-body p-4">
+        
+                <div class="d-flex flex-column gap-4">
+                    <!-- Plano -->
+                    <div>
+
+                        <label class="form-label fw-semibold">
+                            Plano
+                        </label>
+                    
+                        <input 
+                            type="number"
+                            id="inputFiltroPlanoPlano"
+                            class="form-control rounded-4"
+                            placeholder="digite o plano"
+                            autocomplete="off"
+                        >
+                    
+                    </div>
+                    <div>
+                        <label class="form-label fw-semibold">
+                            Status
+                        </label>
+                        <select id="selectFiltroPlanoStatus" class="form-select rounded-4">
+                            <option value="">Todos</option>
+                            <option value="1">Ativo</option>
+                            <option value="2">Inativo</option>
+                        </select>
+                    </div> 
+                </div>
+        
+            </div>
+        
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 px-4 pb-4">
+        
+                <!-- CANCELAR -->
+                <button 
+                    type="button"
+                    class="btn btn-light border rounded-4 px-4 py-2"
+                    data-bs-dismiss="modal"
+                >
+        
+                    <i class="bi bi-x-circle me-1"></i>
+        
+                    Cancelar
+        
+                </button>
+        
+                <!-- FILTRAR -->
+                <button 
+                    type="button"
+                    class="btn btn-dark rounded-4 px-4 py-2"
+                    id="btModalFiltrarPlano"
+                >
+        
+                    <i class="bi bi-search me-1"></i>
+        
+                    Filtrar
+        
+                </button>
+        
+            </div>
+        
+        </div>
+
+    </div>
+
+</div>
+
+<!-- conteudo -->
+<div class="container-fluid py-4">
+
+    <div class="row g-4">
+
+        <!-- DATATABLE -->
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card rounded-4 shadow-sm border-0 p-3">
+
+                    <!-- TÍTULO -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                        <h5 class="card-title mb-0 fw-bold">
+                            Lista de Planos
+                        </h5>
+
+                    </div>
+
+                    <!-- TABELA -->
+                    <div class="table-responsive">
+
+                        <table id="planoTableLista" class="table table-striped align-middle w-100">
+
+                            <thead class="table-dark">
+
+                                <tr>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Plano
+                                    </th>
+                                    <th>
+                                        Descrição
+                                    </th>
+                                    <th>
+                                        Nr. Semanas
+                                    </th>
+                                    <th>
+                                        Valor
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Minha Smart
+                                    </td>
+                                    <td>
+                                        Periodo de 36 meses
+                                    </td>
+                                    <td>
+                                        144
+                                    </td>
+
+                                    <td>
+                                        R$ 429,00
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-success text-white">
+                                            Ativo
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarPlano" data-bs-toggle="modal"
+                                            >
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirPlano"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Minha Smart
+                                    </td>
+                                    <td>
+                                        Periodo de 36 meses
+                                    </td>
+                                    <td>
+                                        144
+                                    </td>
+
+                                    <td>
+                                        R$ 429,00
+                                    </td>
+                                    <td>
+                                        <span class="badge-status bg-danger text-white">
+                                            Inativo
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarPlano" data-bs-toggle="modal"
+                                            >
+
+                                                <i class="bi bi-pencil-fill"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirPlano"  data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir">
+
+                                                <i class="bi bi-trash-fill"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL Plano -->
+<div 
+    class="modal fade" 
+    id="modalPlano" 
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-dark text-white">
+
+                <h5 class="modal-title">
+                    Cadastrar Planos
+                </h5>
+
+                <button 
+                    type="button" 
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form id="frmModalPlano">
+
+                    <!-- PLANO -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Plano
+                        </label>
+                        <input 
+                            type="text"
+                            id="inputModalPlanoPlano"
+                            class="form-control rounded-4"
+                            placeholder="digite o nome do plano"
+                            autocomplete="off"
+                        >
+                    </div>
+                    <!-- Sequêncial -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Descrição
+                        </label>
+                        <input 
+                            type="text"
+                            id="inputModalPlanoDescricao"
+                            class="form-control rounded-4"
+                            placeholder="anotações do plano"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <!-- Informação -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Nr. Semanas
+                        </label>
+                        <input 
+                            type="number"
+                            id="inputModalPlanoSemanas"
+                            class="form-control rounded-4"
+                            placeholder="ex: 10, 20, 144"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Valor
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control rounded-3"
+                            id="inputModalPlanoValor"
+                            placeholder="R$ 0,00">
+
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary rounded-3"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-success rounded-3"
+                    id="btModalSalvarPlano"
+                >
+                    Salvar Plano
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

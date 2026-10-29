@@ -9,6 +9,12 @@ from models.Multa import Multa
 from models.Faturamento import Faturamento
 from models.Oficina import Oficina
 from models.Anexo import Anexo
+from models.DespesaFixa import DespesaFixa
+from models.Codigo import Codigo
+from models.Plano import Plano
+from models.Franqueado import Franqueado
+from models.User import User
+
 
 from config.funcoes import apenasNumeros
 
@@ -177,6 +183,9 @@ def filtros_basicos_multas(query, filtro):
     if filtro.get('status') is not None:
         query = query.filter(Multa.status_id == filtro['status'])
 
+    if filtro.get('franqueado') is not None:
+        query = query.filter(Frota.fraqueado_id == filtro['franqueado'])
+
     if filtro.get('frota') is not None:
         query = query.filter(Multa.frota_id == filtro['frota'])
 
@@ -188,6 +197,9 @@ def filtros_basicos_multas(query, filtro):
 
     if filtro.get('dataFim') is not None:
         query = query.filter(Multa.data_infracao <= filtro['dataFim'])
+
+    if filtro.get('locatario') is not None:
+        query = query.filter(Locatario.id == filtro['locatario'])
 
     return query
 
@@ -205,7 +217,7 @@ def filtros_basicos_faturamentos(query, filtro):
         query = query.filter(Faturamento.ano == filtro['ano'])
 
     if filtro.get('formaPagamento') is not None:
-        query = query.filter(Faturamento.tipo_pagamento_id == filtro['formaPagamento'])
+        query = query.filter(Faturamento.tipo_pagamento == filtro['formaPagamento'])
 
     if filtro.get('dataInicio') is not None:
         query = query.filter(Faturamento.data_pagamento >= filtro['dataInicio'])
@@ -252,5 +264,80 @@ def filtros_basicos_anexos(query, filtro):
 
 
     # query = query.filter(Semanal.deleted_at == None)
+
+    return query
+
+def filtros_basicos_despesas_fixas(query, filtro):
+    if filtro.get('id') is not None:
+        query = query.filter(DespesaFixa.id == filtro['id'])
+
+    if filtro.get('frota') is not None:
+        query = query.filter(DespesaFixa.frota_id == filtro['frota'])
+
+    return query
+
+def filtros_basicos_codigos(query, filtro):
+    if filtro.get('id') is not None:
+        query = query.filter(Codigo.id == filtro['id'])
+
+    if filtro.get('codigo') is not None:
+        query = query.filter(Codigo.codigo == filtro['codigo'])
+
+    if filtro.get('sequencia') is not None:
+        query = query.filter(Codigo.depara_id == filtro['sequencia'])
+
+    if filtro.get('descricao') is not None:
+        query = query.filter(Codigo.descricao == filtro['descricao'])
+
+    if filtro.get('categoria') is not None:
+        query = query.filter(Codigo.obs == filtro['categoria'])
+
+    return query
+
+def filtros_basicos_planos(query, filtro):
+    if filtro.get('id') is not None:
+        query = query.filter(Plano.id == filtro['id'])
+
+    if filtro.get('plano') is not None:
+        query = query.filter(Plano.plano.like(f'%{filtro['plano']}%'))
+
+    if filtro.get('ativo') is not None:
+        if filtro.get('ativo') == 1:
+            query = query.filter(Plano.deleted_at.is_(None))
+        else:
+            query = query.filter(Plano.deleted_at.is_not(None))
+
+    return query
+
+def filtros_basicos_franqueado(query, filtro):
+    if filtro.get('id') is not None:
+        query = query.filter(Franqueado.id == filtro['id'])
+
+    if filtro.get('cnpj') is not None:
+        query = query.filter(Franqueado.cnpj.like(f'%{filtro['cnpj']}%'))
+
+    if filtro.get('cpf') is not None:
+        query = query.filter(Franqueado.cpf.like(f'%{filtro['cpf']}%'))
+
+    if filtro.get('status') is not None:
+        query = query.filter(Franqueado.status_id == filtro['status'])
+
+    return query
+
+def filtros_basicos_usuario(query, filtro):
+    if filtro.get('id') is not None:
+        query = query.filter(User.id == filtro['id'])
+
+    if filtro.get('nome') is not None:
+        query = query.filter(User.nome.like(f'%{filtro['nome']}%'))
+
+    if filtro.get('email') is not None:
+        query = query.filter(User.email.like(f'%{filtro['email']}%'))
+
+    if filtro.get('acesso') is not None:
+        query = query.filter(User.tipoAcessoID == filtro['acesso'])
+
+    if filtro.get('status') is not None:
+        query = query.filter(User.status == filtro['status'])
 
     return query

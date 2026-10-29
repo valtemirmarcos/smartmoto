@@ -105,6 +105,9 @@ function verificarLogin() {
 function logout() {
 
     localStorage.removeItem("token");
+    localStorage.removeItem("usuariologado");
+    localStorage.removeItem("paginaAtual");
+    
 
     window.location.href = "/login";
 

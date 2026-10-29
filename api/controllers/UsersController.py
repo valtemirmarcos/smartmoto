@@ -37,6 +37,14 @@ class UsersController:
         except Exception as error:
             return exception_response(str(error), 500)
 
+    def delete_users(self, user_id, dados_token):
+        try:
+            return success_response(self.repository.delete_users(user_id, dados_token), "Usuario deletado com sucesso")
+        except ValueError as e:
+            return exception_response(str(e), 404)
+        except Exception as error:
+            return exception_response(str(error), 500)
+
     def sfdelete_users(self, user_id, ativa, request, dados_token):
         try:
 
@@ -53,6 +61,14 @@ class UsersController:
     def login(self, data):
         try:
             return success_response(self.repository.login(data))
+        except ValueError as e:
+            return exception_response(str(e), 404)
+        except Exception as error:
+            return exception_response(str(error), 500)
+
+    def listar_users(self, dados_token, filtros_url):
+        try:
+            return success_response(self.repository.listar_users(dados_token, filtros_url))
         except ValueError as e:
             return exception_response(str(e), 404)
         except Exception as error:

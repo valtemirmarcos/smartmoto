@@ -10,7 +10,7 @@ class Anexo(BaseModel):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     franquia_franquiador_locatario_id = Column(Integer, nullable=True)
     # semanal, multa, calcao
-    entidade_tipo = Column(String(20), nullable=False)
+    entidade_tipo = Column(String(120), nullable=False)
     # id do registro na tabela correspondente
     entidade_id = Column(Integer, nullable=False)
     nome_arquivo = Column(String(255), nullable=True)

@@ -209,3 +209,6 @@ def dataHora_formatada(data_str):
 
     formatada = data.strftime("%d/%m/%Y %H:%M:%S")
     return formatada
+
+
+    

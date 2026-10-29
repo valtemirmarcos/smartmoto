@@ -1,9 +1,12 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import func
+from sqlalchemy import func, or_, and_
 from models.Franqueado import Franqueado
+from models.FranquiaFraqueadoLocatario import FranquiaFraqueadoLocatario 
+from models.Frota import Frota 
+from models.User import User 
 from config.funcoes import remove_campos, apenasNumeros
-from config.filtros import filtros_basicos_franquiado
+from config.filtros import filtros_basicos_franqueado
 import os
 import re
 
@@ -12,8 +15,8 @@ class FranquiadosRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_franquiados(self, data):
-
+    def create_franquiados(self, data, dados_token):
+        data['log_id'] = dados_token['dados']['id']
         cnpj = apenasNumeros(data["cnpj"])
         cpf = apenasNumeros(data["cpf"])
         status = data["status"]
@@ -22,7 +25,6 @@ class FranquiadosRepository:
         dados_franquiado["cnpj"] = cnpj
         dados_franquiado["cpf"] = cpf
         dados_franquiado["status_id"] = status
-
         try:
             franquiado = Franqueado(**dados_franquiado)
             self.db.add(franquiado)
@@ -30,15 +32,16 @@ class FranquiadosRepository:
             self.db.refresh(franquiado)
             return dados_franquiado
         
-        except IntegrityError:
+        except IntegrityError as falha:
             self.db.rollback()
-            raise ValueError("cnpj do franqueado já cadastrado")
+            raise ValueError(falha)
 
         except Exception as e:
             self.db.rollback()
             raise e
 
-    def update_franquiados(self, franquiado_id, data):
+    def update_franquiados(self, franquiado_id, data, dados_token):
+        data['log_id'] = dados_token['dados']['id']
         try:
             franquiado = self.db.query(Franqueado).filter(
                 Franqueado.id == franquiado_id
@@ -69,7 +72,7 @@ class FranquiadosRepository:
             self.db.rollback()
             raise e
 
-    def delete_franquiados(self, franquiado_id):
+    def delete_franquiados(self, franquiado_id, dados_token):
         try:
             franquiado = self.db.query(Franqueado).filter(
                 Franqueado.id == franquiado_id
@@ -87,7 +90,8 @@ class FranquiadosRepository:
             self.db.rollback()
             raise e
 
-    def sfdelete_franquiados(self, franquiado_id, ativa):
+    def sfdelete_franquiados(self, franquiado_id, ativa, dados_token):
+        log_id = dados_token['dados']['id']
         try:
             franquiado = self.db.query(Franqueado).filter(
                 Franqueado.id == franquiado_id
@@ -103,6 +107,7 @@ class FranquiadosRepository:
                 franquiado.deleted_at = None
 
             franquiado.status_id = ativa
+            franquiado.log_id = log_id
 
             self.db.commit()
             self.db.refresh(franquiado)
@@ -123,14 +128,53 @@ class FranquiadosRepository:
             tipo_acesso = dados.get("tipoAcessoID")
             franquiado = dados.get("franquiado_id")
 
-            query = self.db.query(Franqueado)
-            query = filtros_basicos_franquiado(query, filtros)
-            if tipo_acesso != 1:
-                query = query.filter(Franqueado.id == franquiado) 
+            user = filtros.get("user")
 
-            franquiado = query.all()
-            return franquiado
+            query = (
+                self.db.query(Franqueado, FranquiaFraqueadoLocatario)
+                .outerjoin(
+                    FranquiaFraqueadoLocatario,
+                    and_(
+                        FranquiaFraqueadoLocatario.franquiado_id == Franqueado.id,
+                        FranquiaFraqueadoLocatario.locatarios_id == None,
+                    )
+                )
+            )
+
+            query = filtros_basicos_franqueado(query, filtros)
+
+            if tipo_acesso != 1:
+                query = query.filter(Franqueado.id == franquiado)
+
+            # Listar somente franqueados sem usuário cadastrado
+            if int(user or 0) == 1:
+                subquery_user = (
+                    self.db.query(User.id)
+                    .join(
+                        FranquiaFraqueadoLocatario,
+                        FranquiaFraqueadoLocatario.user_id == User.id
+                    )
+                    .filter(FranquiaFraqueadoLocatario.franquiado_id == Franqueado.id)
+                    .exists()
+                )
+                query = query.filter(~subquery_user)
+
+            franquiados = query.all()
+            saida = []
+            for franquiado, franquiafraqueadolocatario in franquiados:
+                quantidade_motos = (
+                    self.db.query(func.count(Frota.id))
+                    .filter(Frota.fraqueado_id == franquiado.id)
+                    .scalar()
+                )
+                item = {**franquiado.__dict__}
+                item["franquia_franquiador_locatario_id"] = franquiafraqueadolocatario.id if franquiafraqueadolocatario else None 
+                item["quantidade_motos"] =  quantidade_motos
+                saida.append(item)
+
+            return saida            
 
         except Exception as e:
             self.db.rollback()
             raise e
+

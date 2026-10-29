@@ -1,4 +1,4 @@
-async function carregarFranqueados(selectId = null, opcaoTodos = true) {
+async function carregarFranqueados(selectId = null, opcaoTodos = true, user = false) {
 
     const select = selectId 
         ? document.getElementById(selectId)
@@ -8,14 +8,24 @@ async function carregarFranqueados(selectId = null, opcaoTodos = true) {
 
     try {
 
-        const response    = await api.get("/api/franquiado/listar");
-        const franqueados = response.data.resultado;
+        let response;
+        let franqueados;
 
-        if (franqueados.length === 1) {
-            select.innerHTML = `<option value="${franqueados[0].id}">${franqueados[0].nome}</option>`;
-            select.disabled  = true;
-            return;
+        if (user === true) {
+            response = await api.get("/api/franquiado/listar?user=1");
+            franqueados = response.data.resultado;
+
+        } else {
+            response = await api.get("/api/franquiado/listar");
+            franqueados = response.data.resultado;
+
+            if (franqueados.length === 1) {
+                select.innerHTML = `<option value="${franqueados[0].id}">${franqueados[0].nome}</option>`;
+                select.disabled  = true;
+                return;
+            }
         }
+
 
         select.disabled  = false;
         select.innerHTML = opcaoTodos
@@ -402,4 +412,392 @@ async function excluirArquivo(idAnexo, callback = null) {
 
     }
 
+}
+function formatarReal(valor) {
+    return valor != null && valor !== ""
+        ? Number(valor).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL"
+          })
+        : "";
+}
+function aplicarMascaraMesAno(seletor) {
+    $(document).on('input', seletor, function () {
+        let valor = $(this).val().replace(/\D/g, '').substring(0, 4);
+
+        if (valor.length >= 2) {
+            let mes = parseInt(valor.substring(0, 2), 10);
+
+            if (mes > 12) mes = 12;
+            if (mes < 1 && valor.length === 2) mes = 1;
+
+            valor = String(mes).padStart(2, '0') + valor.substring(2);
+        }
+
+        if (valor.length > 2) {
+            valor = valor.substring(0, 2) + '/' + valor.substring(2);
+        }
+
+        $(this).val(valor);
+    });
+}
+function obterMesAnoAtual() {
+    const hoje = new Date();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const ano = String(hoje.getFullYear()).slice(-2);
+    return `${mes}/${ano}`;
+}
+function limparLetrasNumeros(valor) {
+    return valor
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+}
+function formatarMesAno(mes, ano) {
+    mes = String(mes).padStart(2, '0');
+    ano = String(ano).padStart(2, '0');
+    return `${mes}/${ano}`;
+}
+function primeiraLetraMaiuscula(texto) {
+    if (!texto) return "";
+
+    texto = texto.trim().toLowerCase();
+
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+// Retorna o primeiro dia do mês atual no formato YYYY-MM-DD
+function primeiroDiaMesAtual() {
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+
+    return `${ano}-${mes}-01`;
+}
+
+// Retorna o último dia do mês atual no formato YYYY-MM-DD
+function ultimoDiaMesAtual() {
+    const hoje = new Date();
+    const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
+
+    const ano = ultimoDia.getFullYear();
+    const mes = String(ultimoDia.getMonth() + 1).padStart(2, '0');
+    const dia = String(ultimoDia.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+}
+function formatarMoeda(valor) {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(valor);
+}
+function dataAtual() {
+    const data = new Date();
+
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+}
+function botoesExcelPdf(titulo = 'Relatório') {
+
+    return [
+
+        // =========================================================
+        // EXCEL
+        // =========================================================
+        {
+            extend: 'excelHtml5',
+            text: 'Excel',
+            title: titulo,
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+
+                        if (typeof data === 'string') {
+
+                            // Remove apóstrofo e espaços especiais
+                            data = data
+                                .replace(/^'/, '')
+                                .replace(/\u00A0/g, ' ')
+                                .trim();
+
+                            // Converte R$ 257,00 para número 257
+                            if (/^R\$\s*[\d.]+,\d{2}$/.test(data)) {
+
+                                return parseFloat(
+                                    data
+                                        .replace('R$', '')
+                                        .trim()
+                                        .replace(/\./g, '')
+                                        .replace(',', '.')
+                                );
+                            }
+                        }
+
+                        return data;
+                    }
+                }
+            },
+
+            customize: function (xlsx) {
+
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                var styles = xlsx.xl['styles.xml'];
+
+                // =====================================================
+                // FORMATO DE MOEDA BRASILEIRO
+                // =====================================================
+
+                var numFmts = $('numFmts', styles);
+
+                if (numFmts.length === 0) {
+
+                    styles.documentElement.insertBefore(
+                        styles.createElement('numFmts'),
+                        styles.documentElement.firstChild
+                    );
+
+                    numFmts = $('numFmts', styles);
+                }
+
+                var numFmtId = 165;
+
+                numFmts.append(
+                    '<numFmt numFmtId="' + numFmtId +
+                    '" formatCode="[$R$-pt-BR] #,##0.00"/>'
+                );
+
+                // =====================================================
+                // CRIA ESTILO
+                // =====================================================
+
+                var cellXfs = $('cellXfs', styles);
+                var baseXf = $('xf', cellXfs).first();
+
+                cellXfs.append(
+                    '<xf numFmtId="' + numFmtId +
+                    '" fontId="' + (baseXf.attr('fontId') || 0) +
+                    '" fillId="' + (baseXf.attr('fillId') || 0) +
+                    '" borderId="' + (baseXf.attr('borderId') || 0) +
+                    '" xfId="0" applyNumberFormat="1"/>'
+                );
+
+                var styleIndex = $('xf', cellXfs).length - 1;
+
+                // =====================================================
+                // APLICA MOEDA ÀS CÉLULAS NUMÉRICAS
+                // =====================================================
+
+                $('c', sheet).each(function () {
+
+                    var cell = $(this);
+                    var value = cell.find('v').text();
+
+                    if (
+                        value !== '' &&
+                        !isNaN(value) &&
+                        cell.attr('t') !== 's'
+                    ) {
+                        cell.attr('s', styleIndex);
+                    }
+                });
+            }
+        },
+
+
+        // =========================================================
+        // PDF
+        // =========================================================
+        {
+            extend: 'pdfHtml5',
+            text: 'PDF',
+            orientation: 'landscape',
+            pageSize: 'A4',
+
+            customize: function (doc) {
+
+                // =====================================================
+                // MARGENS
+                // =====================================================
+
+                doc.pageMargins = [30, 30, 30, 30];
+
+
+                // =====================================================
+                // TÍTULO
+                // =====================================================
+
+                if (doc.content[0]) {
+
+                    doc.content[0].alignment = 'center';
+                    doc.content[0].fontSize = 16;
+                    doc.content[0].bold = true;
+                    doc.content[0].margin = [0, 0, 0, 15];
+                }
+
+
+                // =====================================================
+                // LOCALIZA A TABELA
+                // =====================================================
+
+                var tabela = doc.content.find(function (item) {
+                    return item.table;
+                });
+
+
+                if (tabela) {
+
+                    // Largura automática
+                    tabela.table.widths = Array(
+                        tabela.table.body[0].length
+                    ).fill('auto');
+
+
+                    // Centraliza a tabela na página
+                    tabela.alignment = 'center';
+
+
+                    // Espaçamento superior
+                    tabela.margin = [0, 5, 0, 0];
+                }
+            }
+        }
+
+    ];
+}
+function formatarCNPJ(cnpj) {
+    if (!cnpj) {
+        return '-';
+    }
+
+    cnpj = String(cnpj).replace(/\D/g, '');
+
+    if (cnpj.length !== 14) {
+        return cnpj;
+    }
+
+    return cnpj.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+        '$1.$2.$3/$4-$5'
+    );
+}
+function formatarCPF(cpf) {
+    if (!cpf) {
+        return '-';
+    }
+
+    cpf = String(cpf).replace(/\D/g, '');
+
+    if (cpf.length !== 11) {
+        return cpf;
+    }
+
+    return cpf.replace(
+        /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+        '$1.$2.$3-$4'
+    );
+}
+function formatarCEP(cep) {
+    if (!cep) {
+        return '-';
+    }
+
+    cep = String(cep).replace(/\D/g, '');
+
+    if (cep.length !== 8) {
+        return cep;
+    }
+
+    return cep.replace(
+        /^(\d{5})(\d{3})$/,
+        '$1-$2'
+    );
+}
+function mascaraCPF(input) {
+
+    const novoInput = input.cloneNode(true);
+    input.parentNode.replaceChild(novoInput, input);
+
+    novoInput.addEventListener("input", function () {
+
+        let valor = this.value.replace(/\D/g, '');
+
+        valor = valor.substring(0, 11);
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d{1,2})$/,
+            '$1-$2'
+        );
+
+        this.value = valor;
+    });
+
+    return novoInput;
+}
+
+function mascaraCNPJ(input) {
+
+    const novoInput = input.cloneNode(true);
+    input.parentNode.replaceChild(novoInput, input);
+
+    novoInput.addEventListener("input", function () {
+
+        let valor = this.value.replace(/\D/g, '');
+
+        valor = valor.substring(0, 14);
+
+        valor = valor.replace(
+            /(\d{2})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1.$2'
+        );
+
+        valor = valor.replace(
+            /(\d{3})(\d)/,
+            '$1/$2'
+        );
+
+        valor = valor.replace(
+            /(\d{4})(\d{1,2})$/,
+            '$1-$2'
+        );
+
+        this.value = valor;
+    });
+
+    return novoInput;
+}
+function mascaraCEP(input) { 
+    const newInput = input.cloneNode(true); 
+    input.parentNode.replaceChild(newInput, input); 
+    novoInput.addEventListener("input", function () { 
+        let valor = this.value.replace(/\D/g, ''); // Limita a 8 números 
+        valor = valor.substring(0, 8); // Aplica a máscara 00000-000 
+        valor = valor.replace( /(\d{5})(\d)/, '$1-$2' ); this.value = valor; 
+    }); 
+    return novoInput; 
+}
+function removerCaracteresEspeciais(texto) {
+    if (!texto) {
+        return '';
+    }
+
+    return String(texto).replace(/[^a-zA-Z0-9]/g, '');
 }

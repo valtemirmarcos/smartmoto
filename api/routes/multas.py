@@ -32,20 +32,24 @@ def sfdelete(multa_id: int, ativa: int, dados_token = Depends(usuario_logado), d
 def listar(
         dados_token = Depends(usuario_logado), 
         id: int = None,
+        franqueado: int = None,
         frota: int = None,
         status: int = None,
         formaPagamento: int = None,
         dataInicio: date = None, 
         dataFim: date = None,
+        locatario: int = None,
         db: Session = Depends(get_db)
     ):
     filtros_url = {
         "id": id,
+        "franqueado": franqueado,
         "frota": frota,
         "status": status,
         "formaPagamento":formaPagamento,
         "dataInicio": dataInicio, 
-        "dataFim": dataFim
+        "dataFim": dataFim,
+        "locatario": locatario
     }
     controller = MultasController(db)
     return controller.listar_multas(dados_token, filtros_url)

@@ -57,3 +57,13 @@ def filtro_pagamentos(db: Session = Depends(get_db)):
 def custos_status(db: Session = Depends(get_db)):
     controller = FiltrosController(db)
     return controller.custos_status()
+
+@router.get("/codigos/categorias")
+def codigos_categorias(db: Session = Depends(get_db)):
+    controller = FiltrosController(db)
+    return controller.codigos_categorias()
+
+@router.get("/usuarios/acessos")
+def usuarios_acessos(db: Session = Depends(get_db)):
+    controller = FiltrosController(db)
+    return controller.usuarios_acessos()

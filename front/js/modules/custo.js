@@ -192,6 +192,7 @@ $(document).on('click', '.btnInserirNovoCusto', async function () {
 $(document).on('click', '.btnExcluirCusto', function () {
     const idCusto = this.dataset.id;
     const frotaId = this.dataset.frotaid;
+    $('#btExcluir').attr('id', 'btExcluirCusto');
     ModalManager.abrir('modalExcluir',{
         id: idCusto,
         frotaId: frotaId
@@ -264,7 +265,7 @@ $(document).on('shown.bs.tab', '#btnAbaDocumentosFrotaCustos', function () {
     iniciarCusto(frotaId);
 
 });
-$(document).on('click', '.btExcluir', async function () {
+$(document).on('click', '#btExcluirCusto', async function () {
     try {
         
         const dados = ModalManager.getDados('modalExcluir');

@@ -26,3 +26,4 @@ Thumbs.db
 
 # Credenciais
 api/credenciais-drive.json
+api/.env

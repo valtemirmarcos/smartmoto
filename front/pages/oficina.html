@@ -16,7 +16,7 @@
     <div class="d-flex gap-2">
 
         <button class="btn btn-dark rounded-4 px-4 py-2 shadow-sm"   data-bs-toggle="modal"
-        data-bs-target="#modalOficina">
+        id="modalNovaManutencao">
 
             <i class="bi bi-plus-circle me-1"></i>
 
@@ -28,7 +28,7 @@
         <button 
             class="btn btn-outline-dark rounded-4 px-4 py-2 shadow-sm"
             data-bs-toggle="modal"
-            data-bs-target="#modalFiltroOficina"
+            id="modalFitrarManutencao"
         >
 
             <i class="bi bi-funnel-fill me-1"></i>
@@ -82,63 +82,28 @@
             <div class="modal-body p-4">
         
                 <div class="d-flex flex-column gap-4">
-
-                    <!-- FRANQUIADO -->
-                    <div>
-
-                        <label class="form-label fw-semibold">
-                            Franquiado
-                        </label>
-
-                        <select class="form-select rounded-4">
-
-                            <option>
-                                Todos
-                            </option>
-
-                            <option>
-                                João Silva
-                            </option>
-
-                            <option>
-                                Carlos Souza
-                            </option>
-
-                            <option>
-                                Marcos Lima
-                            </option>
-
-                        </select>
-
-                    </div>
-
                     <!-- PLACA -->
                     <div>
 
                         <label class="form-label fw-semibold">
                             Placa
                         </label>
-
-                        <select class="form-select rounded-4">
-
-                            <option>
-                                Todas
-                            </option>
-
-                            <option>
-                                TKO2H43
-                            </option>
-
-                            <option>
-                                ABC1D23
-                            </option>
-
-                            <option>
-                                XYZ9K88
-                            </option>
-
-                        </select>
-
+                    
+                        <input 
+                            type="text"
+                            id="inputPlaca"
+                            class="form-control rounded-4"
+                            placeholder="ABC1D23"
+                            autocomplete="off"
+                        >
+                    
+                        <ul 
+                            id="listaPlacas"
+                            class="list-group shadow position-absolute z-3 w-100"
+                            style="display:none; max-height:200px; overflow-y:auto;"
+                        >
+                        </ul>
+                    
                     </div>
 
                     <!-- DATA INICIAL SERVIÇO -->
@@ -151,6 +116,7 @@
                         <input 
                             type="date"
                             class="form-control rounded-4"
+                            id="inputDataInicial"
                         >
 
                     </div>
@@ -165,6 +131,7 @@
                         <input 
                             type="date"
                             class="form-control rounded-4"
+                            id="inputDataFinal"
                         >
 
                     </div>
@@ -193,7 +160,7 @@
                 <button 
                     type="button"
                     class="btn btn-dark rounded-4 px-4 py-2"
-                    data-bs-dismiss="modal"
+                    id="btModalFiltrarManutencao"
                 >
         
                     <i class="bi bi-search me-1"></i>
@@ -241,6 +208,9 @@
                                 <tr>
                                     <th>
                                         Franquiado
+                                    </th>
+                                    <th>
+                                        Locatário
                                     </th>
                                     <th>
                                         Placa
@@ -299,14 +269,14 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalOficina">
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarManutencao" data-bs-toggle="modal"
+                                            >
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirManutencao"  data-bs-toggle="modal"
                                             data-bs-target="#modalExcluir">
 
                                                 <i class="bi bi-trash-fill"></i>
@@ -347,14 +317,14 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalOficina">
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarManutencao" data-bs-toggle="modal"
+                                            >
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirManutencao"  data-bs-toggle="modal"
                                             data-bs-target="#modalExcluir">
 
                                                 <i class="bi bi-trash-fill"></i>
@@ -395,14 +365,14 @@
 
                                         <div class="d-flex justify-content-center gap-2">
 
-                                            <button class="btn btn-sm btn-warning rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalOficina">
+                                            <button class="btn btn-sm btn-warning rounded-3 btModalAlterarManutencao" data-bs-toggle="modal"
+                                            >
 
                                                 <i class="bi bi-pencil-fill"></i>
 
                                             </button>
 
-                                            <button class="btn btn-sm btn-danger rounded-3"  data-bs-toggle="modal"
+                                            <button class="btn btn-sm btn-danger rounded-3 btModalExcluirManutencao"  data-bs-toggle="modal"
                                             data-bs-target="#modalExcluir">
 
                                                 <i class="bi bi-trash-fill"></i>
@@ -431,11 +401,11 @@
                                         Total Valor Pago:
                                     </td>
 
-                                    <td>
+                                    <td id="modalManutencaoTotal">
                                         R$ 3.560,00
                                     </td>
 
-                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
 
                                 </tr>
 
@@ -486,7 +456,7 @@
             <!-- BODY -->
             <div class="modal-body">
 
-                <form>
+                <form id="frmModalManutencao">
 
                     <!-- FRANQUIADO -->
                     <div class="mb-3">
@@ -495,7 +465,7 @@
                             Franquiado
                         </label>
 
-                        <select class="form-select rounded-3">
+                        <select class="form-select rounded-3" id="selectModalManutencaoFranqueado">
 
                             <option selected disabled>
                                 Selecione o franquiado
@@ -521,26 +491,21 @@
                     <div class="mb-3">
 
                         <label class="form-label fw-bold">
-                            Placa da Moto
+                            Placa
                         </label>
-
-                        <select class="form-select rounded-3">
-
-                            <option selected disabled>
-                                Selecione a placa
-                            </option>
-
-                            <option>
-                                TKO2H43
-                            </option>
-
-                            <option>
-                                ABC1D23
-                            </option>
-
-                            <option>
-                                XYZ9K88
-                            </option>
+                        <input 
+                            type="text"
+                            id="inputManutencaoPlaca"
+                            class="form-control rounded-4"
+                            placeholder="ABC1D23"
+                            autocomplete="off"
+                        >
+                        <ul 
+                            id="listaManutencaoPlacas"
+                            class="list-group shadow position-absolute z-3 w-100"
+                            style="display:none; max-height:200px; overflow-y:auto;"
+                        >
+                        </ul>
 
                         </select>
 
@@ -556,6 +521,7 @@
                         <input 
                             type="date"
                             class="form-control rounded-3"
+                            id="modalInputManutencaoDataServico"
                         >
 
                     </div>
@@ -571,6 +537,7 @@
                             type="number"
                             class="form-control rounded-3"
                             placeholder="Ex: 25000"
+                            id="modalInputManutencaoKms"
                         >
 
                     </div>
@@ -586,6 +553,7 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="Descreva o serviço realizado"
+                            id="modalInputManutencaoServico"
                         >
 
                     </div>
@@ -601,10 +569,24 @@
                             type="text"
                             class="form-control rounded-3"
                             placeholder="R$ 0,00"
+                            id="modalInputManutencaoValor"
                         >
 
                     </div>
+                    <div class="mb-3">
 
+                        <label class="form-label fw-bold">
+                            Valor Pago
+                        </label>
+
+                        <input 
+                            type="text"
+                            class="form-control rounded-3"
+                            placeholder="R$ 0,00"
+                            id="modalInputManutencaoPagamento"
+                        >
+
+                    </div>
                     <!-- OBSERVAÇÃO -->
                     <div class="mb-3">
 
@@ -616,6 +598,7 @@
                             class="form-control rounded-3"
                             rows="4"
                             placeholder="Digite alguma observação..."
+                            id="modalInputManutencaoObs"
                         ></textarea>
 
                     </div>
@@ -638,75 +621,9 @@
                 <button 
                     type="button"
                     class="btn btn-success rounded-3"
+                    id="btModalSalvarManutencao"
                 >
                     Salvar Serviço
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
-<div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-
-        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-
-            <!-- HEADER -->
-            <div class="modal-header bg-danger text-white border-0">
-
-                <h5 class="modal-title fw-bold">
-                    Confirmar Exclusão
-                </h5>
-
-                <button 
-                    type="button" 
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                ></button>
-
-            </div>
-
-            <!-- BODY -->
-            <div class="modal-body text-center py-4">
-
-                <div class="mb-3">
-
-                    <i class="bi bi-trash-fill text-danger" style="font-size: 60px;"></i>
-
-                </div>
-
-                <h6 class="fw-bold mb-2">
-                    Deseja realmente excluir?
-                </h6>
-
-                <p class="text-muted small mb-0">
-                    Esta ação não poderá ser desfeita.
-                </p>
-
-            </div>
-
-            <!-- FOOTER -->
-            <div class="modal-footer border-0 justify-content-center pb-4">
-
-                <button 
-                    type="button"
-                    class="btn btn-light border rounded-3 px-4"
-                    data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </button>
-
-                <button 
-                    type="button"
-                    class="btn btn-danger rounded-3 px-4"
-                >
-                    Excluir
                 </button>
 
             </div>

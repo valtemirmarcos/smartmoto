@@ -40,7 +40,7 @@ def listar(
         mes: int = None,
         ano: int = None,
         status: int = None,
-        formaPagamento: int = None,
+        formaPagamento: str = None,
         dataInicio: date = None, 
         dataFim: date = None,
         db: Session = Depends(get_db)

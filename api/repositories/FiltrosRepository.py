@@ -171,3 +171,34 @@ class FiltrosRepository:
         except Exception as e:
             self.db.rollback()
             raise e
+
+    def codigos_categorias(self):
+        try:
+            saida = (
+                    self.db.query(
+                    Codigo.depara_id.label("id"),
+                    Codigo.obs.label("texto")
+                )
+                .group_by(Codigo.depara_id, Codigo.obs)
+                .order_by(Codigo.depara_id).all()
+            )
+            return [dict(row._mapping) for row in saida]
+    
+        except Exception as e:
+            self.db.rollback()
+            raise e
+
+    def usuarios_acessos(self):
+        try:
+            saida = (
+                    self.db.query(
+                    Codigo.codigo.label("id"),
+                    Codigo.descricao.label("texto")
+                ).filter(Codigo.depara_id == 10)
+                .order_by(Codigo.codigo).all()
+            )
+            return [dict(row._mapping) for row in saida]
+    
+        except Exception as e:
+            self.db.rollback()
+            raise e

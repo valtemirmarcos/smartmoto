@@ -13,4 +13,5 @@ class Oficina(BaseModel):
     pagamento = Column(Numeric(10, 2), nullable=True)
     obs = Column(String(100), nullable=True)
     log_id = Column(Integer, nullable=False)
+    kilometragem = Column(Integer, nullable=False)
 

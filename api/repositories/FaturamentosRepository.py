@@ -13,6 +13,7 @@ from models.Frota import Frota
 from models.Locatario import Locatario
 from models.Codigo import Codigo
 from models.User import User
+from models.Franqueado import Franqueado
 
 from config.funcoes import remove_campos, apenasNumeros, valida_placa, validar_campos_obrigatorios, calcular_data_pagamento, formatar_placa
 
@@ -37,13 +38,16 @@ class FaturamentosRepository:
             "valor_entrada",
             "valor_saida",
             "data_pagamento",
-            "tipo_pagamento_id",
+            "tipo_pagamento",
             "status_id"
         ]
         saida = validar_campos_obrigatorios(campos_obrigatorios, data)
+        
 
         data['log_id'] = dados_token['dados']['id']
+
         dados_faturamentos = data
+        
         try:
 
             faturamento = Faturamento(**dados_faturamentos)
@@ -152,7 +156,7 @@ class FaturamentosRepository:
                 "valor_entrada":faturamento_bruto,
                 "valor_saida":vlsaida,
                 "data_pagamento":calcular_data_pagamento(10),
-                "tipo_pagamento_id":1,
+                "tipo_pagamento":"franquia",
                 "status_id":1,
                 "log_id": log_id
             }
@@ -162,7 +166,7 @@ class FaturamentosRepository:
                     Faturamento.mes == mes,
                     Faturamento.ano == ano,
                     Faturamento.deleted_at.is_(None),
-                    Faturamento.tipo_pagamento_id == 1,
+                    Faturamento.tipo_pagamento == "franquia",
                     Faturamento.franquia_franquiador_locatario_id == codigo
                 ).first()
             )
@@ -361,7 +365,7 @@ class FaturamentosRepository:
             "valor_entrada":calcao.valor,
             "valor_saida":0,
             "data_pagamento":agora.strftime("%Y-%m-%d"),
-            "tipo_pagamento_id":2,
+            "tipo_pagamento":"calcao",
             "status_id":2,
             "frota_id":calcao.frota_id,
             "log_id":calcao.log_id
@@ -371,7 +375,7 @@ class FaturamentosRepository:
             .filter(
                 Faturamento.franquia_franquiador_locatario_id == calcao.franquia_franquiador_locatario_id, 
                 Faturamento.frota_id == calcao.frota_id,
-                Faturamento.tipo_pagamento_id == 2,
+                Faturamento.tipo_pagamento == "calcao",
                 Faturamento.mes == int(mes),
                 Faturamento.ano == int(ano)
             )
@@ -393,10 +397,9 @@ class FaturamentosRepository:
                 return None
 
             Status = aliased(Codigo, name="status")
-            FormaPgto = aliased(Codigo, name="forma_pgto")
 
             query = (
-                self.db.query(Faturamento, Frota, FormaPgto, Status, User, Locatario)
+                self.db.query(Faturamento, Frota, Status, User, Locatario, Franqueado)
                 .outerjoin(
                     Frota,
                     Frota.id == Faturamento.frota_id
@@ -406,17 +409,18 @@ class FaturamentosRepository:
                     Locatario.frota_id == Faturamento.frota_id
                 )
                 .outerjoin(
-                    Status, 
-                    and_(
-                        Status.depara_id == 7,
-                        Status.codigo == Faturamento.status_id
-                    )
+                    FranquiaFraqueadoLocatario,
+                    FranquiaFraqueadoLocatario.id == Faturamento.franquia_franquiador_locatario_id
                 )
                 .outerjoin(
-                    FormaPgto, 
+                    Franqueado, 
+                    Franqueado.id == FranquiaFraqueadoLocatario.franquiado_id
+                )
+                .outerjoin(
+                    Status, 
                     and_(
-                        FormaPgto.depara_id == 8,
-                        FormaPgto.codigo == Faturamento.tipo_pagamento_id
+                        Status.depara_id == 8,
+                        Status.codigo == Faturamento.status_id
                     )
                 )
                 .outerjoin(
@@ -428,13 +432,14 @@ class FaturamentosRepository:
             query = filtros_basicos_faturamentos(query, filtro)
             faturamentos = query.all()
             saida = []
-            for faturamento, frota, status, formaPgto, user, locatario in faturamentos:
+            for faturamento, frota, status, user, locatario, franquiado in faturamentos:
                 item = {**faturamento.__dict__}
                 item['placa'] = formatar_placa(frota.placa) if frota else None
-                item["pagamento"] = formaPgto.descricao if formaPgto else None
+                item["pagamento"] = faturamento.tipo_pagamento if faturamento else None
                 item["status"] = status.descricao if status else None
                 item["usuario"] = user.nome if user else None
                 item["locatario"] = locatario.nome if locatario else None
+                item["franquiado"] = franquiado.nome if franquiado else None
                 saida.append(item)
 
             # sql = str(query.statement.compile(compile_kwargs={"literal_binds": True}))
